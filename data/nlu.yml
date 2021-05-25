@@ -1,0 +1,533 @@
+version: "2.0"
+nlu:
+- synonym: connexion
+  examples: |
+    - Internet
+    - Surfer
+    - Connecter
+    - Surfé
+    - Connecté
+    - Data
+ 
+- synonym: connaitre
+  examples: | 
+    - savoir
+    - chercher
+    - cherche
+    
+- synonym: android
+  examples: |
+    - samsung
+    - Techno
+    - itel
+    - lg
+- synonym: configuration
+  examples: |
+    - paramètres
+    - parametres
+    - paramètre
+    - parametre
+    - paramétrer
+    - parametrer
+    - configurer
+    - configure
+  
+- synonym: agent
+  examples: |
+    - agents
+    - personnel
+    - personel
+    - employé
+    - assistant
+    - personne
+    - autorité
+    - humain
+    - humaine
+    
+- synonym: physique
+  examples: |
+    - réel
+    - physiques
+    - réelle
+    - vrai
+    - vraie
+    - authentique
+    - non virtuel
+    - non virtuelle
+    - pas virtuel
+    - pas virtuelle
+
+- synonym: téléphone
+  examples: |
+    - mobile
+    - phone
+    - android
+    - iphone
+    - smartphone
+    - telephone
+    - portable
+    - telephone portable
+    
+- synonym: voudrais
+  examples: |
+    - voudrait
+    - aimerai
+    - aimerait
+    - souhaiterai
+    - souhaiterait
+    - besoin
+    - veux
+    - veut
+    - pourrai
+    - pourrait
+    - pourrais
+    - pourai
+    - pourait
+    - pourais
+    - peux
+    - peut
+
+    
+- synonym: parler
+  examples: |
+    - causer
+    - entretenir
+    - entretient
+    - entretiens
+    - converser
+    - conversé
+    - discuter
+    - discuté
+    - causé
+    - parlé
+    
+- synonym: puce
+  examples: |
+    - SIM
+    - sim
+    
+
+- intent: salutation
+  examples: |
+    - Bonjour
+    - Bonsoir
+    - Bon aprem
+    - Bon après-midi
+    - Salut
+    - Hello
+    - Hey
+    - Hi
+    - bonjour
+
+- intent: forfait_internet
+  examples: |
+    - je souhaite connaitre les [forfaits](forfait) [internet](internet)
+    - Je veux les [forfaits](forfait) [internet](internet)
+    - Je voudrais souscrire à un [forfait](forfait) [internet](internet)
+    - Je veux connaitre les [forfaits](forfait) [internet](internet)
+    - Je veux les [codes](forfait) [internet](internet)
+    - [Forfait](forfait) [internet](internet)
+    - [code](forfait) [internet](internet)
+    - Quel forfait pour internet
+    - Quels sont les forfaits internet
+    - Vous proposez quels forfaits Internet
+    - Comment je peux avoir la connexion internet
+    - Donne moi les codes pour sufer
+    - je veux les codes pour surfer
+    
+- intent: configuration_android
+  examples: |
+    - [Configuration](configuration) [internet](connexion) [android](android)
+    - Je veux [configurer](configuration) [internet](connexion) sur mon téléphone [android](android)
+    - je veux les [paramètres](configuration) [internet](connexion) [android](android)
+    - [Paramètre](configuration) [internet](connexion) [Android](android)
+    - [Android](android)
+    - Je viens d'acheter mon [android](android) et je veux le [configurer](configuration)
+    - Aide moi à [configurer](configuration) mon [android](android)
+    - Comment [configurer](configuration) mon [android](android)
+    - on fait comment pour [configurer](configuration) le [android](android)
+    - Je veux savoir comment [configurer](configuration) mon [android](android)
+    - Comment on s'y prend pour [configurer](configuration) un [android](android)
+    - Quels sont les codes de [configuration](configuration) d'un [android](android)
+    - Dit moi comment [configurer](configuration) mon [android](android) Nexttel
+    - J'aimerai connaitre la precedure de [configuration](configuration) des [android](android)
+    - J'aimerai [paramétrer](configuration) mon [android](android)
+    - Peux-tu me dire comment [configurer](configuration) mon [android](android)
+    - Dit moi comment est ce que je peux [configurer](configuration) mon [android](android)
+    
+- intent: configuration_iphone
+  examples: |
+    - [Configuration](configuration) [internet](connexion) [iphone](iphone)
+    - [Configuration](configuration) [internet](connexion) [apple](iphone)
+    - Je veux [configurer](configuration) [internet](connexion) sur mon téléphone [iphone](iphone)
+    - Je veux [configurer](configuration) [internet](connexion) sur mon téléphone [apple](iphone)
+    - je veux les [paramètres](configuration) [internet](connexion) [iphone](iphone)
+    - je veux les [paramètres](configuration) [internet](connexion) [apple](iphone)
+    - [Paramètre](configuration) [internet](connexion) [iphone](iphone)
+    - [Paramètre](configuration) [internet](connexion) [apple](iphone)
+    - [iphone](iphone)
+    - Je viens d'acheter mon [iphone](iphone) et je veux le [configurer](configuration)
+    - Aide moi à [configurer](configuration) mon [iphone](iphone)
+    - Comment [configurer](configuration) mon [iphone](iphone)
+    - on fait comment pour [configurer](configuration) le [iphone](iphone)
+    - Je veux savoir comment [configurer](configuration) mon [iphone](iphone)
+    - Comment on s'y prend pour [configurer](configuration) un [iphone](iphone)
+    - Quels sont les codes de [configuration](configuration) d'un [iphone](iphone)
+    - Dit moi comment [configurer](configuration) mon [iphone](iphone)
+    - J'aimerai connaitre la precedure de [configuration](configuration) des [iphone](iphone)
+    - J'aimerai [paramétrer](configuration) mon [iphone](iphone)
+    - Peux-tu me dire comment [configurer](configuration) mon [iphone](iphone)
+    - Dit moi comment est ce que je peux [configurer](configuration) mon [iphone](iphone)
+    
+- intent: configuration_modem
+  examples: |
+    - [Configuration](configuration) [internet](connexion) des [modem](modem)
+    - Je veux [configurer](configuration) [internet](connexion) sur mon [modem](modem)
+    - je veux [configurer](configurer) mon [modem](modem)
+    - [Paramètre](configuration) [internet](connexion) [modem](modem)
+    - Aide moi à [configurer](configuration) mon [modem](modem)
+    - Comment [configurer](configuration) mon [modem](modem) NEXTTEL
+    - on fait comment pour [configurer](configuration) le [modem](modem)
+    - Je veux savoir comment [configurer](configuration) mon [modem](modem)
+    - Comment on s'y prend pour [configurer](configuration) un [modem](modem)
+    - Quels sont les codes de [configuration](configuration) d'un [modem](modem)
+    - Dit moi comment [configurer](configuration) mon [modem](modem) Nexttel
+    - J'aimerai connaitre la precedure de [configuration](configuration) des [modems](modem) NEXTTEL
+    - J'aimerai [paramétrer](configuration) mon [modem](modem) NEXTTEL
+    - Peux-tu me dire comment [configurer](configuration) mon [modem](modem)
+    - Dit moi comment est ce que je peux [configurer](configuration) mon [modem](modem)
+    
+- intent: configuration_internet
+  examples: |
+    - [paramètres](configuration) [internet](connexion)
+    - Je souhaite avoir les [configuration](configuration) [internet](connexion)
+    - Je voudrai les [configuration](configuration) [internet](connexion)
+    - Je veux [paramétrer](configuration) la connexion [internet](connexion) de mon telephone
+    - Je veux les [configuration](connexion)
+    - Je veux [configurer](configuration) mon [téléphone](connexion)
+    - Aide moi à configurer mon téléphone
+    - Comment je peux configurer la connexion internet sur mon téléphone
+    - Je veux configurer la connexion internet de mon telephone
+    - Peux tu me donner les paramètres internet d'un téléphone portable
+    - je veux les paramètres internet
+    - Donne moi les paramètres internet des téléphones
+    - Je souhaiterai avoir les paramètres internet des téléphones
+    
+    
+- intent: connexion_impossible
+  examples: |
+    - Je n'arrive pas à me [connecter](connexion)
+    - Je [ne](impossible) parviens [pas](impossible) à me [connecter](connexion)
+    - [Connexion](connexion) [impossible](impossible)
+    - [Impossible](impossible) de se [connecter](connexion)
+    - [Impossible](impossible) de [surfer](connexion)
+    - Je n'arrive pas à [surfer](connexion)
+    - Je [ne](impossible) parviens pas à [surfer](connexion)
+    - La [connexion](connexion) [ne](impossible) passe [pas](impossible)
+    - [Problème](impossible) de [connexion](connexion)
+
+    
+- intent: prix_produits
+  examples: |
+    - Je souhaite connaitre les [prix](prix) des [produits](produit) nexttel
+    - Je souhaite connaitre la [liste](prix) des [produits](produit) nexttel
+    - Je veux le [prix](prix) des [produits](produit) nexttel
+    - Quels sont vos [produits](produit, prix)
+    - Que [vendez](produit, prix) vous
+    
+- intent: demande_box
+  examples: |
+    - Je [veux](vouloir) une [box](box)
+    - Je [veux](vouloir) une [box](box) wifi
+    - Je veux [acheter](vouloir) une [box](box) wifi
+    - Quel [box](box) wifi avez-vous
+    - [Box](box) wifi
+    - Je veux une box wifi
+    - Quel box wifi avez-vous
+    - Combien coute une box wifi
+    - Combien vaut une box wifi
+    - A combien je peux avoir une box
+    - Combien coute une box
+    - Combien coûte une box
+    - A combien vendez-vous une box
+    - Prix d'une box wifi
+    - Je peux avoir une box a combien
+    - A combien vous me laissez une box
+    - Prix d'une box wifi
+    - Je veux acheter une box wifi
+    - Tu vends tes box wifi a combien
+    - Donne moi une box wifi
+    
+    
+- intent: demande_modem
+  examples: |
+    - Je [veux](vouloir) un [modem](modem)
+    - Je [veux](vouloir) un [modem](modem) wifi
+    - Je veux [acheter](vouloir) un [modem](modem) wifi
+    - Quel [modem](modem) wifi avez-vous
+    - [modem](modem) wifi
+    - Quel modem avez-vous
+    - Combien coute un modem
+    - Combien ca vaut un modem
+    - A combien je peux avoir un modem
+    - Combien coute un modem
+    - Combien coûte un modem
+    - A combien vendez-vous un modem
+    - Prix d'une box wifi
+    - Je peux avoir un modem a combien
+    - A combien vous me laissez un modem
+    - Prix d'un modem wifi
+    - Je veux acheter un modem wifi
+    - Tu vends tes un modem wifi a combien
+    - Donne moi une un modem wifi
+    
+- intent: demande_telephone
+  examples: |
+    - Je [veux](vouloir) un [telephone](telephone)
+    - Je veux [acheter](vouloir) un [telephone](telephone) wifi
+    - Quel [telephone](telephone) wifi avez-vous
+    - [telephone](telephone) Nexttel
+    - Quel telephone avez-vous
+    - Combien coute un téléphone
+    - Combien ca vaut un portable
+    - A combien je peux avoir un portable
+    - Combien coute un telephone
+    - Combien coûte un téléphone
+    - A combien vendez-vous un telephone
+    - Prix d'une portable
+    - Je peux avoir un portable a combien
+    - A combien vous me laissez un phone
+    - Prix d'un phone wifi
+    - Je veux acheter un telephone
+    - Tu vends tes un portable a combien
+    - Donne moi une un phone
+    
+    
+  
+- intent: activer_puce
+  examples: |
+    - Comment [activer](activation) un nouveau [numéro](numero) prépayé neXttel ?
+    - Comment [activer](activation) ma [puce](numero) ?
+    - Je veux [activer](activation) ma [puce](numero) Nexttel
+    - [Activer](activation) la [puce](numero)
+    - [Activer](activation) mon [numéro](numero)
+    - Je souhaiterai activer ma puce
+    - j'aimerai savoir comment je peux activer ma puce
+    - Peux tu me dire comment faire pour activer la puce
+    - Je viens d'acheter ma puce, comment je fais pour l'activer
+    - S'il te plait comment je fais pour activer ma puce
+
+- intent: identifier_puce
+  examples: |
+    - Que dois-je faire pour [identifier](identification) mon [numéro](numero) de téléphone ?
+    - [Identifier](identification) mon [numéro](numero) de téléphone
+    - Je voudrai m'[identifier](identification)
+    - Je veux [identifier](identification) ma [puce](numero)
+    - [Identification](identification) [puce](numero)
+    - [Identifier](identification) la [puce](numero)
+    - [Identifier](identification) mon [téléphone](numero)
+    - Je souhaiterai identifier ma puce
+    - j'aimerai savoir comment je peux identifier ma puce
+    - Peux tu me dire comment faire pour identifier la puce
+    - Je viens d'acheter ma puce, comment je fais pour l'identifier
+    - S'il te plait comment je fais pour identifier ma puce
+    
+- intent: connaitre_numero
+  examples: |
+    - Comment faire pour [connaître](connaitre) mon [numéro](numero) de téléphone?
+    - Je ne [connais](connaitre) pas mon [numéro](numero) de téléphone
+    - [Connaitre](connaitre) mon [numéro](numero) de téléphone
+    - [Connaitre](connaitre) le [numéro](numero) de ma puce
+    - Je ne [connais](connaitre) pas mon [numéro](numero)
+    - Comment je peux [connaitre](connaitre) mon [numéro](numero) de télépone
+    - Comment je peux [avoir](connaitre) mon [numéro](numero) de téléphone ?
+    - Je [voudrai](souhait) mon [numéro](numero) de téléphone
+    - Je fais comment pour savoir quel est mon numero de téléphone
+    - Je fais comment pour connaitre mon numéro
+    - Je tape quel code pour avoir mon numero de téléphone
+    - Quel est mon numero de téléphone
+    - Donne moi mon numéro de téléphone
+    
+- intent: appel_sans_credit
+  examples: |
+    - Je voudrais [appeler](appeler) mais je n’ai [pas assez](impossible) de [crédit](credit) que faire?
+    - Je n'ai [pas](impossible) le [crédit](credit) mais je veux [appeler](appeler)
+    - [Appeler](appeler) [sans](impossible) [crédit](credit) 
+    - Comment [appeler](appeler) [sans](impossible) [crédit](credit)
+    - Est-il possible d'[appeler](appeler) [sans](impossible) [crédit](credit)
+    - Comment [appeler](appeler) [sans](impossible) [crédit](credit)
+
+- intent: utiliser_phone_etranger
+  examples: |
+    - Puis-je [utiliser](utiliser) mon [téléphone](numero) à l’[étranger](etranger)?
+    - Comment je peux [utiliser](utiliser) ma [puce](numero) à l'[étranger](etranger)
+    - Comment faire pour [utiliser](utiliser) son [téléphone](numero) à l'[étranger](etranger)
+    - Comment [garder](utiliser) mon [numéro](numero) de téléphone si je [voyage](etranger)
+    - Je [voyage](etranger), comment je peux [garder](utiliser) mon [numéro](numero) de téléphone
+    - Si je [voyage](etranger), comment mon [numéro](numero) peut continuer à [passer](utiliser)
+    - De quelle façon je peux [utiliser](utiliser) mon [numéro](numero) à l'[étranger](etranger)
+    
+- intent: handoff_human
+  examples: |
+    - Je [souhaite](souhait) [parler](parler) à un [personnel](agent)
+    - Je [souhaite](souhait) être [pris en charge](parler) par un [assistant](agent) physique
+    - Je [veux](souhait) un [humain](agent)
+    - [Puis](souhait)-je [parler](parler) à un [agent](agent)
+    - [agent](agent) réel
+    - un [agent](agent) [humain](physique) s'il vous plait
+    - Je [voudrai](souhait) que ma requête soit [transférer](parler) à un [agent](agent) [physique](physique)
+    - Je [voudrai](souhait) que ma requête soit [transférer](parler) à un [agent](agent) [humain](physique)
+    - Je [voudrai](souhait) que ma requête soit [transférer](parler) à un [agent](agent) [réel](physique)
+    - [Laisser](souhait) moi [parler](parler) à un [humain](agent)
+    - [Laisser](souhait) moi [parler](parler) à un [agent](agent) [physique](physique)
+    - [Connecter](souhait) moi à un [personnel](agent) [physique](physique)
+    - J'ai [besoin](souhait) de [parler](parler) à un [assistant](agent) [réel](physique)
+    - [Passez](souhait) le relais à un [agent](agent) [physique](physique)
+    - Je [voudrai](souhait) [parler](parler) à un [agent](agent) [réel](physique)
+    - Je [voudrai](souhait) [parler](parler) à un [agent](agent)
+    - [Pourrai-je](souhait) m'[entretenir](parler) avec un [agent](agent) [réel](physique)
+    - Transfert ma requête
+   
+    
+- intent: mobile_number
+  examples: |
+    - mon numero c'est [668512883](number)
+    - [663744490](number)
+    - Voici mon numero: [668512883](number)
+    - mon numero est [668512883](number)
+    - mon numero est le [668512883](number)
+    - [698921478](number) c'est mon numero
+    
+- intent: connaitre_nom
+  examples: |
+    - mon nom c'est [Armel](name)
+    - Je m'appelle [Richard](name)
+    - [François](name)
+    - [Chelsey](name) c'est mon nom
+    - Je me nomme [Henrie](name)
+    - [Terry](name)
+    - [Edwin](name)
+    - [Zebaze](name)
+    - [Thomas](name)
+    - [Thierry](name)
+    - [Paul](name)
+    - [Luc Terry](name)
+    - [Pierre-Paul](name)
+    - [Ruben Mouangue](name)
+    - Je m'appelle [Charlotte Dipanda](name)
+    - [AA](name)
+    - [AABOUCH](name)
+    - mon nom c'est [AADEL](name)
+    - Je m'appelle [Bosco](name)
+    - [Djimy](name)
+    - [Dimitri](name) c'est mon nom
+    - [Carlos Cesar](name)
+    - [Jules mbadjui](name)
+    - je me nomme [Zanzibar Raoul](name)
+    - [Yvan Le Roi](name)
+    - [Venseslas Vinicius](name)
+    - [Tam Cilia](name)
+    - [Maka Maka Ebenezer](name)
+    - Je m'appelle [Noah Agoua Gallus](name)
+    - [Jennifer Lopez](name)
+    - [Daniel](name)
+    - [Daniel Melchior](name)
+    - [Effa Ngan](name)
+    - [Eto'o Fils](name)
+    - [Emana Jovanie 2](name)
+    - [Ekessi Moukala Joelle](name)
+    - [Fernand De Paul](name)
+    - [Francis Nganou](name)
+    - [Gobina Dipanda](name)
+    - [Gabriel Jesus](name)
+    - [Gemma Tongolo](name)
+    - [Hatte Hom](name)
+    - [Idoine Iviki](name)
+    - [Indiana John](name)
+    - [John](name)
+    - [Jean](name)
+    - [Jacques](name)
+    - je me nomme [Kevin Kelvin](name)
+    - Je m'appelle [Karl Marx](name)
+    - appelez-moi [Kirtis](name)
+    - [Lionnel](name)
+    - [Laeticia](name)
+    - [Londres Lisbonne](name)
+    - [Lyndi](name)
+    - Applez moi [Mama](name)
+    - [Miniti](name)
+    - [Muna Jospeh](name)
+    - je m'appelle [Mounda](name)
+    - [Nicolas](name)
+    - [Ouganda](name) c'est mon nom
+    - [Ondoa Prest](name)
+    - je m'appelle [Quantin](name)
+    - [Queen](name)
+    - [Raoul](name)
+    - [Ronny Jack](name)
+    - [Reine Gallillee](name)
+    - [Sirenne](name)
+    - [Sorelle Neim](name)
+    - Je m'appelle [Suit](name)
+    - [Touchel](name)
+    - [Uriel](name)
+    - [Ulisse Ondes](name)
+    - [Varelle](name)
+    - [Vondo Paul](name)
+    - [Witeney](name)
+    - [Won](name)
+    - [Xavier](name)
+    - [Xeen Chuan](name)
+    - [Xua](name)
+    - [Ymini](name)
+    - [Yvan Heul](name)
+    - [Yb](name) 
+    - je me nomme [Zuan](name)
+    - [Zick](name)
+
+- intent: internet
+  examples: |
+    - Internet
+    - Data
+    - Surfer
+    - Surf
+    
+  
+- intent: depart
+  examples: |
+    - Au revoir
+    - Aurevoir
+    - Bye
+    - Bonne journée
+    - Bonne soirée
+    - A la prochaine
+    
+  
+- intent: affirmation
+  examples: |
+    - Oui
+    - Biensur
+    - En effet
+    - Evidemment
+    - Correct
+    - Correcte
+    - OK
+    
+- intent: negation
+  examples: |
+    - Non
+    - Jamais
+    - Pas vraiment
+    - No
+    - Je ne pense pas
+    - Je ne crois pas
+    
+- intent: remerciement
+  examples: |
+    - Merci
+    - Grand merci
+    - Vraiment merci
+    - Oui Merci
+    
+
+

@@ -1,0 +1,242 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 1
+  carry_over_slots_to_new_session: true
+
+intents:
+- salutation
+- depart
+- affirmation
+- negation
+- remerciement
+- connexion_impossible
+- configuration_android
+- configuration_iphone
+- configuration_internet
+- configuration_modem
+- prix_produits
+- forfait_internet
+- activer_puce
+- identifier_puce
+- connaitre_numero
+- appel_sans_credit
+- utiliser_phone_etranger
+- internet
+- demande_box
+- demande_telephone
+- demande_modem
+- handoff_human
+- connaitre_nom:
+    use_entities:
+      - name
+- mobile_number:
+    use_entities:
+      - number
+
+entities:
+- android
+- configuration
+- connexion
+- iphone
+- rire
+- internet
+- forfait
+- modems
+- produit
+- prix
+- impossible
+- activation
+- identification
+- connaitre
+- appeler
+- credit
+- etranger
+- utiliser
+- telephone
+- box
+- modem
+- vouloir
+- parler
+- agent
+- souhait
+- physique
+- number
+- name
+  
+slots:
+  number:
+    type: text
+  name:
+    type: text
+  probleme:
+    type: text
+    
+actions:
+ - action_submit
+ - action_send_mail
+ - action_reset_slots
+# - validate_user_details_form
+
+forms:
+  user_details_form:
+    name:
+    - type: from_entity
+      entity: name
+    number:
+    - type: from_entity
+      entity: number
+    probleme:
+    - type: from_text
+      intent: connexion_impossible
+
+responses:
+  utter_rermerciement:
+  - text: "NEXTTEL vous remercie pour votre fidélité!!"
+
+  utter_salutation:
+  - text: "Bonjour! Je m'appelle King 🤴🏽!\n\nJe peux vous accompagner dans:\nLa recherce de forfait internet\nLa configuration d'internet sur vos téléphones, modem et autres\nLe renseignement sur les prix des produits nexttel\nL'identification, l'activation et la connaissance des numéros des SIM Nexttel\nJe peux vous montrer comment appeler sans crédit 😉\nJe peux vous renseigner sur la façon d'utiliser son numéro à l'étranger.\n\nComment puis-je vous donc aider 😉?"
+  
+  utter_solution_internet_1:
+  - text: "Veuillez souscrire à un forfait en composant l'un des codes suivants: *865#, *860#"
+  
+  utter_solution_internet_2:
+  - text: "Veuillez configurer les paramètres internet de votre téléphone selon les paramètres suivants:..."
+  
+  utter_solution_internet_3:
+  - text: "Essayer de redémarrer votre téléphone et reessayer de vous connecter"
+  
+  utter_remerciement:
+  - text: "Ravi d'avoir pu vous aider"
+  
+  utter_aucun_probleme:
+  - text: "D'accord!! Revenez quand vous voulez. Nous sommes à votre écoute. Au revoir!"
+  
+  utter_depart:
+  - text: "Au revoir !"
+  
+  utter_connexion_impossible_step_1:
+  - text: "Avez-vous souscrit à un forfait ?"
+  
+  utter_connexion_impossible_step_2:
+  - text: "Avez-vous correctement configuré les paramètres de connexion Internet ?"
+  
+  utter_connexion_impossible_step_3:
+  - text: "Avez-vous essayer de redémarrer votre téléphone ?"
+  
+  utter_connexion_impossible_step_4:
+  - text: "Nous traitons votre requête. Merci de patienter un moment!"
+  
+  utter_configuration_iphone:
+  - text: "Configuration iphone"
+  
+  utter_configuration_android:
+  - text: "Configuration android\nName: NEXTTEL\nAPN: e-connect\nType d'APN: default\nProxy: Non configuré\nNom d'utilisateur: Non configuré\nMot de passe: Non configuré\nServeur: Non configuré\nMMSC: Non configuré\nProxy MMS: Non configuré\nMCC: 624\nMNC: 04\nType d'authentification: PAP\nProtocole de l'APN: IPv4\nProtocole APN en itinérance: IPv4\nRéseau: Non spécifié\nType MVNO: Aucun\nValeur MVNO: Non configuré\n\n Bon surf avec Nexttel 👍🏼"
+  
+  utter_configuration_modem:
+  - text: "Configuration modem"
+  
+  utter_prix_cle:
+  - image: "https://www.mediafire.com/view/b7oicdbcnltjsc6/cleNexttel.PNG/file"
+    text: "NEXTTEL met à votre disposition:\n Des clés internet Dongle 3G compatible avec les systèmes Windows 10, 8, 7, XP, Vista et MAC OS. Elles fonctionnent sur les bandes UMTS 2100, 1900 et 900 MHz, et les bandes GSM 850, 1800, 1900 MHz. Le débit déscendant peut aller jusqu'à 21,6Mbps et le débit montant jusqu'à 11 Mbps.\n Elle supporte des cartes mémoires allant jusqu'à 32Go.\n Et tout ceci pour le prix de 1500 Francs CFA.\n Il est à noter qu'une clé achetée égale 01 Carte SIM + 500 Mo par mois pendant 05 mois \n👍🏼👍🏼"
+  
+  utter_prix_telephone:
+  - image: "https://www.mediafire.com/view/e3wz9jjv5rp20bc/phoneNexttel.PNG/file"
+    text: "Des téléphones portables FP 200 avec caméra, bluetooth, radio, lampe torche et supportant des cartes mémoires allant jusqu'à 8Go et une batterie de 800 mAh pour un prix de 5999 FCFA \n👍🏼👍🏼"
+  
+  utter_prix_wifiBox:
+  - image: "https://www.mediafire.com/view/2rbakoe3x8owgm9/boxNexttel.PNG/file"
+    text: "Nexttel propose des Box Wifi LTE CAT4 dont le débit peut aller jusqu’à 150Mbps, couvrant une zone de 250m de rayon, pouvant supporter jusqu'à 32 utilisateurs simultanés et possédant une entrée USB 2.0. Ceci pour le prix de 62999 FCFA \n👍🏼👍🏼"
+  
+  utter_prix_modem_poche:
+  - image: "https://www.mediafire.com/view/0dtzx3m1k5gc2jw/box2.PNG/file"
+    text: "Nexttel propose des modem de poche fonctionnant en LTE/UMTS/GSM, dont la débit déscendant peut atteindre 150Mbps et le débit montant 50Mbps, acceptant des cartes mémoire et possédant une batterie de 3000 mAh. Ceci pour le prix de 43700 FCFA. Il est à noter que un modem acheté égale 5 Go/mois pendant 03 mois \n👍🏼👍🏼"
+  
+  utter_configuration_internet:
+  - text: "Vous souhaitez configurer un android, un iphone ou un modem?"
+    buttons:
+      - title: Android
+        payload: /configuration_android
+      - title: Iphone
+        payload: /configuration_iphone
+      - title: Modem
+        payload: /configuration_modem
+  
+  utter_forfait_internet:
+  - text: "Vous pouvez souscrire à un forfait internet en composant un des codes suivants: *860#, *865#"
+  
+  utter_activation_puce:
+  - text: "C'est facile! Insérez la puce dans le téléphone et appelez le 801. Rassurez-vous au préalable que votre numéro Nexttel a été identifié avec la photocopie d’une de vos pièces d’identité nationale valide."
+  
+  utter_identifier_puce:
+  - text: "C'est simple! Rendez-vous dans un Shop Nexttel près de chez vous muni de la photocopie d’une de vos pièces d’identité valide (CNI, Passeport ou Permis de conduire)."
+  
+  utter_connaitre_numero:
+  - text: "Facile! Composez *600# et lancez l’appel. Le numéro d’appel s’affichera sur l’écran de votre téléphone."
+  
+  utter_appel_sans_credit:
+  - text: "Vous pouvez envoyer gratuitement un message de 10 caractères par sms, en envoyant : « CMB_N° de Téléphone_Message » au 818."
+  
+  utter_utiliser_numero_etranger:
+  - text: "Simple!! Etant abonné Nexttel (en prépayé) vous avez le service roaming activé par défaut sur votre carte SIM. Ainsi, vous avez juste besoin de recharger votre compte avant votre départ car l’émission et la réception des appels sont payantes."
+  
+  utter_reformulation:
+  - text: "🤔, Je ne suis pas en mesure de traiter votre requête peut-être parce que je ne suis pas autorisé à le faire ou alors parce que vous avez mal formuler votre demande!!\nQue voulez-vous?\nSi vous pouvez mieux formuler votre demande pour que je puisse miuex vous aider, pourriez vous le faire s'il vous plait ?? 🙏🏼?"
+    buttons:
+      - title: Forfait Internet
+        payload: /forfait_internet
+      - title: Configuration Internet
+        payload: /configuration_internet
+      - title: Prix des produits Nexttel
+        payload: /prix_produits
+      - title: Identification SIM
+        payload: /identifier_puce
+      - title: Activation SIM
+        payload: /activer_puce
+      - title: Connaitre votre numero de telephone
+        payload: /connaitre_numero
+      - title: Appeler sans crédit
+        payload: /appel_sans_credit
+      - title: Utiliser votre numero à letranger
+        payload: /utiliser_phone_etranger
+
+  utter_details_thanks:
+   - text: "Merci d'avoir fourni ces détails. Nous transférons votre requête"
+   
+  utter_transfert: 
+  - text: "Votre requete va être notifié à un agent physique pour une prise en charge.\n Etes-vous d'accord Oui ou Non?\n"
+    buttons:
+      - title: OUI
+        payload: /affirmation
+      - title: NON
+        payload: /negation
+  
+  utter_submit:
+  - text: "hello"
+  
+  utter_transfert_effectue:
+  - text: "Transfert effectué"
+  
+  utter_erreur_transfert:
+  - text: "Une erreur est survenue lors du transfert de votre requête. Veuillez vérifier l'état de votre connexion Internet"
+  
+  utter_erreur_numero:
+  - text: "Hummm... Y a une erreur dans ce numéro! Soit il n'est pas un numéro de NEXTTEL, soit la syntaxe de ce numéro est incorrecte"
+  
+  utter_ask_number:
+  - text: " Le numéro de téléphone qui a besoin d'assistance s'il vous plait!"
+  
+  utter_ask_name:
+  - text: " Le nom de la personne qui a besoin d'assistance s'il vous plait!"
+  
+  utter_ask_probleme:
+  - text: "Quel est le problème que vous rencontrez ?"
+  
+  utter_verification_user_form:
+  - text: "Nom: {name}\n Numero: {number}\nProblème rencontré: {probleme}\nCes informations sont-elles correctes?\n"
+    buttons:
+      - title: OUI
+        payload: /affirmation
+      - title: NON
+        payload: /negation
+  
+

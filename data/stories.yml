@@ -1,0 +1,88 @@
+version: "2.0"
+
+stories:
+  
+- story: configuration internet android long
+  steps:
+  - intent: configuration_internet
+  - action: utter_configuration_internet
+  - intent: configuration_android
+  - action: utter_configuration_android
+  
+- story: configuration internet iphone long
+  steps:
+  - intent: configuration_internet
+  - action: utter_configuration_internet
+  - intent: configuration_iphone
+  - action: utter_configuration_iphone
+  
+- story: configuration internet modem long
+  steps:
+  - intent: configuration_internet
+  - action: utter_configuration_internet
+  - intent: configuration_modem
+  - action: utter_configuration_modem
+
+- story: problème internet complet
+  steps: 
+  - intent: salutation
+  - action: utter_salutation
+  - intent: connexion_impossible
+  - action: utter_connexion_impossible_step_1
+  - intent: affirmation
+  - action: utter_connexion_impossible_step_2
+  - intent: affirmation
+  - action: utter_connexion_impossible_step_3
+  - intent: affirmation
+  - action: utter_connexion_impossible_step_4
+  
+- story: problème internet step 1
+  steps:
+  - intent: salutation
+  - action: utter_salutation
+  - intent: connexion_impossible
+  - action: utter_connexion_impossible_step_1
+  - intent: negation
+  - action: utter_solution_internet_1
+  
+- story: problème internet step 2
+  steps:
+  - intent: salutation
+  - action: utter_salutation
+  - intent: connexion_impossible
+  - action: utter_connexion_impossible_step_1
+  - intent: affirmation
+  - action: utter_connexion_impossible_step_2
+  - intent: negation
+  - action: utter_solution_internet_2
+  
+- story: problème internet step 3
+  steps: 
+  - intent: salutation
+  - action: utter_salutation
+  - intent: connexion_impossible
+  - action: utter_connexion_impossible_step_1
+  - intent: affirmation
+  - action: utter_connexion_impossible_step_2
+  - intent: affirmation
+  - action: utter_connexion_impossible_step_3
+  - intent: negation
+  - action: utter_solution_internet_3
+  
+- story: prix des produits
+  steps:
+  - intent: prix_produits
+  - action: utter_prix_cle
+  - action: utter_prix_telephone
+  - action: utter_prix_modem_poche
+  - action: utter_prix_wifiBox
+  
+# - story: Transfert requete
+#   steps:
+#   - intent: nlu_fallback
+#   - action: utter_reformulation
+#   - intent: nlu_fallback
+#   - action: utter_reformulation
+#   - intent: nlu_fallback
+#   - action: utter_transfert
+
