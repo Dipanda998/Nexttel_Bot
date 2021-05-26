@@ -77,12 +77,7 @@ stories:
   - action: utter_prix_modem_poche
   - action: utter_prix_wifiBox
   
-# - story: Transfert requete
-#   steps:
-#   - intent: nlu_fallback
-#   - action: utter_reformulation
-#   - intent: nlu_fallback
-#   - action: utter_reformulation
-#   - intent: nlu_fallback
-#   - action: utter_transfert
-
+- story: Transfert vers un humain
+  steps:
+  - intent: nlu_fallback
+  - action: action_default_fallback

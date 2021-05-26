@@ -67,12 +67,7 @@ rules:
   steps:
   - intent: configuration_android
   - action: utter_configuration_android
-  
-
-- rule: Transfert vers un humain
-  steps:
-  - intent: nlu_fallback
-  - action: utter_transfert 
+   
  
 - rule: Transfert vers un humain Refusée
   steps:

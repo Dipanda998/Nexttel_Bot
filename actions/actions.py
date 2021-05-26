@@ -24,13 +24,30 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from rasa.core.channels.channel import InputChannel
 
-
+appel_fallback = 0
 #
 #
 
-# class ActionCheckNumber(FormValidationAction):
-#     def name(self) -> Text:
-#         return "validate_user_details_form"
+class ActionDefaultFallback(Action):
+    """Execute the fallback action and goes back to the previous state of the dialogue"""
+    def name(self) -> Text:
+        return "action_default_fallback"
+    
+    async def run(self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],) -> List[Dict]:
+        
+        global appel_fallback
+        if appel_fallback <=1:
+            dispatcher.utter_message(response="utter_reformulation")
+            appel_fallback = appel_fallback + 1
+            print(appel_fallback)
+        else:
+            dispatcher.utter_message(response="utter_transfert")
+            appel_fallback = 0
+            print(appel_fallback)
+        return None
     
 #     @staticmethod
 #     def validate_number_code(self,
@@ -46,23 +63,12 @@ from rasa.core.channels.channel import InputChannel
 #             return {"number_code":None} 
     
     
-# class UserForm(FormAction):
+# class UserForm(Action):
     
 #     def name(self)->Text:
-#         return "user_details_form"
+#         return "action_default_fallback"
     
-# #     @staticmethod
-# #     def required_slots(tracker: Tracker)-> List[Text]:
-# #         """A list of required slots that the form has to fill"""
-# #         return ["number_code"]
-    
-#     def submit(self,
-#         dispatcher: CollectingDispatcher,
-#         tracker: Tracker,
-#         domain: Dict[Text, Any],) -> List[Dict]:
-        
-#         dispatcher.utter_message(template="utter_submit")
-#         return []
+
    
 
         
@@ -103,9 +109,9 @@ class SendMail(Action):
             text = msg.as_string()
             s.sendmail(fromaddr, toaddr, text)
             print("Envoie reussi")
-            dispatcher.utter_message(template="utter_transfert_effectue")
+            dispatcher.utter_message(response="utter_transfert_effectue")
         except:
-            dispatcher.utter_message(template="utter_erreur_transfert")
+            dispatcher.utter_message(response="utter_erreur_transfert")
             print("Une erreur est survenue lors de l'envoi de la requête")
         finally:
             s.quit()
@@ -171,7 +177,7 @@ class ActionSubmit(Action):
         tracker: Tracker,
         domain: "DomainDict",
     ) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(template="utter_details_thanks")
+        dispatcher.utter_message(response="utter_details_thanks")
         
 class ResetAllSlots(Action):
     def name(self) -> Text:

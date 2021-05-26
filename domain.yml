@@ -75,6 +75,7 @@ actions:
  - action_submit
  - action_send_mail
  - action_reset_slots
+ - action_default_fallback
 # - validate_user_details_form
 
 forms:
@@ -87,7 +88,7 @@ forms:
       entity: number
     probleme:
     - type: from_text
-      intent: connexion_impossible
+      intent: none
 
 responses:
   utter_rermerciement:

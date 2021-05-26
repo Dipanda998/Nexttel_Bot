@@ -28,7 +28,7 @@ pipeline:
      constrain_similarities: True
    - name: FallbackClassifier
      threshold: 0.8
-     fallback_action_name: "utter_reformulation"
+#      fallback_action_name: "utter_reformulation"
 #     ambiguity_threshold: 0.1
 
 # Configuration for Rasa Core.
@@ -45,8 +45,9 @@ policies:
      constrain_similarities: true
    - name: RulePolicy
      core_fallback_threshold: 0.8
-     core_fallback_action_name: "utter_reformulation"
-     enable_fallback_prediction: False
-     #enable_fallback_prediction: True
+     enable_fallback_prediction: True
+     core_fallback_action_name: "action_default_fallback"
+#      enable_fallback_prediction: False
+     
    - name: MappingPolicy
    - name: FormPolicy
