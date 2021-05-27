@@ -23,6 +23,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from rasa.core.channels.channel import InputChannel
+import csv
+import os
 
 appel_fallback = 0
 #
@@ -44,6 +46,9 @@ class ActionDefaultFallback(Action):
             appel_fallback = appel_fallback + 1
             print(appel_fallback)
         else:
+            current_state = tracker.current_state()
+            probleme = current_state["latest_message"]["text"]
+            SlotSet("probleme", probleme)
             dispatcher.utter_message(response="utter_transfert")
             appel_fallback = 0
             print(appel_fallback)
@@ -117,38 +122,6 @@ class SendMail(Action):
             s.quit()
         return []
     
-#     def sendEmail(numero, nom, probleme,dispatcher: CollectingDispatcher):
-#         fromaddr = "teskingpro2@gmail.com"
-#         password = "Kingpro3.p0"
-#         toaddr = "testfrancoisking@gmail.com"
-#         subject = "Problème"
-#         msg = MIMEMultipart()
-#         msg['From'] = fromaddr
-#         msg['To'] = toaddr
-#         msg['Subject'] = subject
-#         body = "M ou Mme << {} >> qui a pour numero le << {} >> rencontre un problème.\nLe Son problème est le suivant:\n{}".format(nom, numero, probleme)
-        
-#         msg.attach(MIMEText(body,'plain'))
-        
-#         s = smtplib.SMTP('smtp.gmail.com', 587)
-#         s.starttls()
-        
-#         try:
-#             s.login(fromaddr, password)
-#             text = msg.as_string()
-#             s.sendmail(fromaddr, toaddr, text)
-#             print("Envoie reussi")
-#             dispatcher.utter_message(text="Transfert effectué")
-#         except:
-#             dispatcher.utter_message(text="Une erreur est survenue lors du transfert de votre requête. Veuillez vérifier l'état de votre connexion Internet")
-#             print("Une erreur est survenue lors de l'envoi de la requête")
-#         finally:
-#             s.quit()
-    
-
-    
-    
-
 
 class ValidateRestaurantForm(Action):
     def name(self) -> Text:
@@ -157,12 +130,31 @@ class ValidateRestaurantForm(Action):
     def run(
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
     ) -> List[EventType]:
-        required_slots = ["name", "number", "probleme"]
+        required_slots = ["name", "number"]
 
         for slot_name in required_slots:
             if tracker.slots.get(slot_name) is None:
                 # The slot is not filled yet. Request the user to fill this slot next.
                 return [SlotSet("requested_slot", slot_name)]
+
+        # All slots are filled.
+        return [SlotSet("requested_slot", None)]
+    
+class ValidateResoluForm(Action):
+    def name(self) -> Text:
+        return "resolu_form"
+
+    def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+        required_slots = ["resolu"]
+
+        for slot_name in required_slots:
+            if tracker.slots.get(slot_name) is None:
+                if tracker.get_intent_of_latest_message() == "affirmation":
+                    return [SlotSet("requested_slot", "True")]
+                if tracker.get_intent_of_latest_message() == "negtion":
+                    return [SlotSet("requested_slot", "False")]
 
         # All slots are filled.
         return [SlotSet("requested_slot", None)]
@@ -190,6 +182,48 @@ class ResetAllSlots(Action):
     ) -> List[Dict[Text, Any]]:
         return [AllSlotsReset()]
         
+class SauvegardeCSV(Action):
+    def name(self) -> Text:
+        return "action_sauvegarde_csv"
+    
+    def run(
+        self,
+        dispatcher,
+        tracker: Tracker,
+        domain: "DomainDict",
+    ) -> List[Dict[Text, Any]]:
+
+        file_txt= r"C:\Users\daniel\Desktop\nexttel\TAL\rasa_chatbot_fr\actions\testmoi.csv"
+
+        exist = os.path.isfile(file_txt)
+        #data = ["Problème",tracker.get_slot("resolu")]
+        resolu = tracker.get_slot("resolu")
+        header = ['Problèmes', 'Résolus']
+        if exist == False:
+            try:
+                file = open(file_txt, 'w', newline ='')
+
+                with file:
+                    # identifying header  
+                    writer = csv.DictWriter(file, fieldnames = header)
+
+                    #writing data row-wise into the csv file
+                    writer.writeheader()
+                    writer.writerow({'Problèmes' : 'Problème', 
+                     'Résolus': resolu})
+            except:
+                print("Erreur lors de l'ouverture du fichier")
+        else:
+#             data = [tracker.get_slot("probleme"),tracker.get_slot("resolu") ]
+            
+            try:
+                file = open(file_txt, 'a+', newline ='')
+                with file:
+                    writer = csv.DictWriter(file, fieldnames = header)
+                    writer.writerow({'Problèmes' : 'Problème', 
+                     'Résolus': resolu})
+            except:
+                print("Erreur")
 # class ActionHandoff(Action):
 #     def name(self) -> Text:
 #         return "action_handoff"

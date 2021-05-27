@@ -7,6 +7,24 @@ rules:
   - intent: configuration_iphone
   - action: utter_configuration_iphone
   
+- rule: satisfait iphone
+  steps: 
+  - action: utter_configuration_iphone
+  - action: resolu_form
+  - active_loop: resolu_form
+  
+- rule: satisfait android
+  steps: 
+  - action: utter_configuration_android
+  - action: resolu_form
+  - active_loop: resolu_form
+  
+- rule: satisfait modem
+  steps: 
+  - action: utter_configuration_modem  
+  - action: resolu_form
+  - active_loop: resolu_form
+  
 - rule: configuration internet modem court
   steps:
   - intent: configuration_modem
@@ -16,26 +34,36 @@ rules:
   steps:
   - intent: activer_puce
   - action: utter_activation_puce
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - rule: identifier puce
   steps:
   - intent: identifier_puce
   - action: utter_identifier_puce
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - rule: connaitre numero telephone
   steps:
   - intent: connaitre_numero
   - action: utter_connaitre_numero
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - rule: appel sans crédit
   steps:
   - intent: appel_sans_credit
   - action: utter_appel_sans_credit
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - rule: garder son numéro de téléphone à letranger
   steps:
   - intent: utiliser_phone_etranger
   - action: utter_utiliser_numero_etranger
+  - action: resolu_form
+  - active_loop: resolu_form
 
 
 - rule: rermerciement
@@ -47,39 +75,73 @@ rules:
   steps:
   - intent: demande_box
   - action: utter_prix_wifiBox
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - rule: demande modem
   steps:
   - intent: demande_modem
   - action: utter_prix_modem_poche
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - rule: demande telephone
   steps:
   - intent: demande_telephone
   - action: utter_prix_telephone
+  - action: resolu_form
+  - active_loop: resolu_form
  
 - rule: demande de forfait
   steps:
   - intent: forfait_internet
   - action: utter_forfait_internet
+  - action: resolu_form
+  - active_loop: resolu_form
  
 - rule: configuration internet android court
   steps:
   - intent: configuration_android
   - action: utter_configuration_android
    
- 
+# - rule: satisfaction oui
+#   steps:
+#   - action: utter_satisfait
+#   - intent: affirmation
+#   - action: resolu_form
+#   - active_loop: resolu_form
+  
+# - rule: satisfaction non
+#   steps:
+#   - action: utter_satisfait
+#   - intent: negation
+#   - action: resolu_form
+#   - active_loop: resolu_form
+  
+- rule: Submit resolu form
+  condition: 
+  - active_loop: resolu_form
+  steps:
+  - action: resolu_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_sauvegarde_csv
+  - action: action_reset_slots
+  - action: utter_rermerciement
+  
+
 - rule: Transfert vers un humain Refusée
   steps:
   - action: utter_transfert
   - intent: negation
+  - action: action_reset_slots
   - action: utter_reformulation 
  
 - rule: Transfert vers un humain Autorisée
   steps:
   - action: utter_transfert
   - intent: affirmation
-  - action: action_reset_slots
   - action: user_details_form
   - active_loop: user_details_form
 

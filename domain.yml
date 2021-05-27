@@ -70,12 +70,15 @@ slots:
     type: text
   probleme:
     type: text
+  resolu:
+    type: text
     
 actions:
  - action_submit
  - action_send_mail
  - action_reset_slots
  - action_default_fallback
+ - action_sauvegarde_csv
 # - validate_user_details_form
 
 forms:
@@ -88,7 +91,15 @@ forms:
       entity: number
     probleme:
     - type: from_text
-      intent: none
+      intent: None
+  resolu_form:
+     resolu:
+     - type: from_intent
+       value: "True"
+       intent: affirmation
+     - type: from_intent
+       value: "False"
+       intent: negation
 
 responses:
   utter_rermerciement:
@@ -210,6 +221,14 @@ responses:
         payload: /affirmation
       - title: NON
         payload: /negation
+        
+  utter_ask_resolu: 
+  - text: "Etes-vous satisfait?\nOui ou Non?\n"
+    buttons:
+      - title: OUI
+        payload: /affirmation
+      - title: NON
+        payload: /negation
   
   utter_submit:
   - text: "hello"
@@ -229,8 +248,8 @@ responses:
   utter_ask_name:
   - text: " Le nom de la personne qui a besoin d'assistance s'il vous plait!"
   
-  utter_ask_probleme:
-  - text: "Quel est le problème que vous rencontrez ?"
+#   utter_ask_probleme:
+#   - text: "Quel est le problème que vous rencontrez ?"
   
   utter_verification_user_form:
   - text: "Nom: {name}\n Numero: {number}\nProblème rencontré: {probleme}\nCes informations sont-elles correctes?\n"
