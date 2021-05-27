@@ -79,6 +79,8 @@ actions:
  - action_reset_slots
  - action_default_fallback
  - action_sauvegarde_csv
+ - action_print_slot
+ - action_store_probleme
 # - validate_user_details_form
 
 forms:
@@ -89,9 +91,6 @@ forms:
     number:
     - type: from_entity
       entity: number
-    probleme:
-    - type: from_text
-      intent: None
   resolu_form:
      resolu:
      - type: from_intent

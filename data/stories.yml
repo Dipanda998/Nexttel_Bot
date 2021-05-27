@@ -7,27 +7,37 @@ stories:
   - intent: configuration_internet
   - action: utter_configuration_internet
   - intent: configuration_android
+  - action: action_store_probleme
   - action: utter_configuration_android
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - story: configuration internet iphone long
   steps:
   - intent: configuration_internet
   - action: utter_configuration_internet
   - intent: configuration_iphone
+  - action: action_store_probleme
   - action: utter_configuration_iphone
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - story: configuration internet modem long
   steps:
   - intent: configuration_internet
   - action: utter_configuration_internet
   - intent: configuration_modem
+  - action: action_store_probleme
   - action: utter_configuration_modem
+  - action: resolu_form
+  - active_loop: resolu_form
 
 - story: problème internet complet
   steps: 
   - intent: salutation
   - action: utter_salutation
   - intent: connexion_impossible
+  - action: action_store_probleme
   - action: utter_connexion_impossible_step_1
   - intent: affirmation
   - action: utter_connexion_impossible_step_2
@@ -41,26 +51,33 @@ stories:
   - intent: salutation
   - action: utter_salutation
   - intent: connexion_impossible
+  - action: action_store_probleme
   - action: utter_connexion_impossible_step_1
   - intent: negation
   - action: utter_solution_internet_1
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - story: problème internet step 2
   steps:
   - intent: salutation
   - action: utter_salutation
   - intent: connexion_impossible
+  - action: action_store_probleme
   - action: utter_connexion_impossible_step_1
   - intent: affirmation
   - action: utter_connexion_impossible_step_2
   - intent: negation
   - action: utter_solution_internet_2
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - story: problème internet step 3
   steps: 
   - intent: salutation
   - action: utter_salutation
   - intent: connexion_impossible
+  - action: action_store_probleme
   - action: utter_connexion_impossible_step_1
   - intent: affirmation
   - action: utter_connexion_impossible_step_2
@@ -68,14 +85,19 @@ stories:
   - action: utter_connexion_impossible_step_3
   - intent: negation
   - action: utter_solution_internet_3
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - story: prix des produits
   steps:
   - intent: prix_produits
+  - action: action_store_probleme
   - action: utter_prix_cle
   - action: utter_prix_telephone
   - action: utter_prix_modem_poche
   - action: utter_prix_wifiBox
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - story: Transfert vers un humain
   steps:

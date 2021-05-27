@@ -48,11 +48,24 @@ class ActionDefaultFallback(Action):
         else:
             current_state = tracker.current_state()
             probleme = current_state["latest_message"]["text"]
-            SlotSet("probleme", probleme)
             dispatcher.utter_message(response="utter_transfert")
             appel_fallback = 0
             print(appel_fallback)
+            return[SlotSet("probleme", probleme)]
         return None
+
+class ActionStoreProbleme(Action):
+    def name(self) -> Text:
+        return "action_store_probleme"
+
+    def run (
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict
+    ) -> List[EventType]:
+
+        current_state = tracker.current_state()
+        probleme = current_state["latest_message"]["text"]
+        return [SlotSet('probleme', probleme)]
+                
     
 #     @staticmethod
 #     def validate_number_code(self,
@@ -171,6 +184,32 @@ class ActionSubmit(Action):
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(response="utter_details_thanks")
         
+class PrintSlot(Action):
+    def name(self) -> Text:
+        return "action_print_slot"
+    def run(
+        self,
+        dispatcher,
+        tracker: Tracker,
+        domain: "DomainDict",
+    ) -> List[Dict[Text, Any]]:
+        slot = tracker.get_slot("probleme")
+        print("slot : {}".format(slot))
+        return []
+    
+# class StoreProbleme(Action):
+#     def name(self) -> Text:
+#         return "action_store_probleme"
+#     def run(
+#         self,
+#         dispatcher,
+#         tracker: Tracker,
+#         domain: "DomainDict",
+#     ) -> List[Dict[Text, Any]]:       
+#         current_state = tracker.current_state()
+#         probleme = current_state["latest_message"]["text"]
+#         return [SlotSet('probleme', probleme)]
+        
 class ResetAllSlots(Action):
     def name(self) -> Text:
         return "action_reset_slots"
@@ -198,6 +237,8 @@ class SauvegardeCSV(Action):
         exist = os.path.isfile(file_txt)
         #data = ["Problème",tracker.get_slot("resolu")]
         resolu = tracker.get_slot("resolu")
+        slot = tracker.get_slot("probleme")
+        print("slot : {}".format(slot))
         header = ['Problèmes', 'Résolus']
         if exist == False:
             try:
@@ -209,7 +250,7 @@ class SauvegardeCSV(Action):
 
                     #writing data row-wise into the csv file
                     writer.writeheader()
-                    writer.writerow({'Problèmes' : 'Problème', 
+                    writer.writerow({'Problèmes' : slot, 
                      'Résolus': resolu})
             except:
                 print("Erreur lors de l'ouverture du fichier")
@@ -220,7 +261,7 @@ class SauvegardeCSV(Action):
                 file = open(file_txt, 'a+', newline ='')
                 with file:
                     writer = csv.DictWriter(file, fieldnames = header)
-                    writer.writerow({'Problèmes' : 'Problème', 
+                    writer.writerow({'Problèmes' : slot, 
                      'Résolus': resolu})
             except:
                 print("Erreur")

@@ -5,6 +5,7 @@ rules:
 - rule: configuration internet iphone court
   steps:
   - intent: configuration_iphone
+  - action: action_store_probleme
   - action: utter_configuration_iphone
   
 - rule: satisfait iphone
@@ -28,11 +29,13 @@ rules:
 - rule: configuration internet modem court
   steps:
   - intent: configuration_modem
+  - action: action_store_probleme
   - action: utter_configuration_modem
   
 - rule: activation puce
   steps:
   - intent: activer_puce
+  - action: action_store_probleme
   - action: utter_activation_puce
   - action: resolu_form
   - active_loop: resolu_form
@@ -40,6 +43,7 @@ rules:
 - rule: identifier puce
   steps:
   - intent: identifier_puce
+  - action: action_store_probleme
   - action: utter_identifier_puce
   - action: resolu_form
   - active_loop: resolu_form
@@ -47,6 +51,7 @@ rules:
 - rule: connaitre numero telephone
   steps:
   - intent: connaitre_numero
+  - action: action_store_probleme
   - action: utter_connaitre_numero
   - action: resolu_form
   - active_loop: resolu_form
@@ -54,6 +59,7 @@ rules:
 - rule: appel sans crédit
   steps:
   - intent: appel_sans_credit
+  - action: action_store_probleme
   - action: utter_appel_sans_credit
   - action: resolu_form
   - active_loop: resolu_form
@@ -61,6 +67,7 @@ rules:
 - rule: garder son numéro de téléphone à letranger
   steps:
   - intent: utiliser_phone_etranger
+  - action: action_store_probleme
   - action: utter_utiliser_numero_etranger
   - action: resolu_form
   - active_loop: resolu_form
@@ -74,6 +81,7 @@ rules:
 - rule: demande box
   steps:
   - intent: demande_box
+  - action: action_store_probleme
   - action: utter_prix_wifiBox
   - action: resolu_form
   - active_loop: resolu_form
@@ -81,6 +89,7 @@ rules:
 - rule: demande modem
   steps:
   - intent: demande_modem
+  - action: action_store_probleme
   - action: utter_prix_modem_poche
   - action: resolu_form
   - active_loop: resolu_form
@@ -88,6 +97,7 @@ rules:
 - rule: demande telephone
   steps:
   - intent: demande_telephone
+  - action: action_store_probleme
   - action: utter_prix_telephone
   - action: resolu_form
   - active_loop: resolu_form
@@ -95,6 +105,7 @@ rules:
 - rule: demande de forfait
   steps:
   - intent: forfait_internet
+  - action: action_store_probleme
   - action: utter_forfait_internet
   - action: resolu_form
   - active_loop: resolu_form
@@ -102,6 +113,7 @@ rules:
 - rule: configuration internet android court
   steps:
   - intent: configuration_android
+  - action: action_store_probleme
   - action: utter_configuration_android
    
 # - rule: satisfaction oui
