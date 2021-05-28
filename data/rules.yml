@@ -7,6 +7,8 @@ rules:
   - intent: configuration_iphone
   - action: action_store_probleme
   - action: utter_configuration_iphone
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - rule: satisfait iphone
   steps: 
@@ -31,6 +33,8 @@ rules:
   - intent: configuration_modem
   - action: action_store_probleme
   - action: utter_configuration_modem
+  - action: resolu_form
+  - active_loop: resolu_form
   
 - rule: activation puce
   steps:
@@ -115,6 +119,8 @@ rules:
   - intent: configuration_android
   - action: action_store_probleme
   - action: utter_configuration_android
+  - action: resolu_form
+  - active_loop: resolu_form
    
 # - rule: satisfaction oui
 #   steps:

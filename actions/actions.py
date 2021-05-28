@@ -29,6 +29,12 @@ import os
 appel_fallback = 0
 #
 #
+#  buttons = [
+#             {"payload": "/affirm", "title": "Yes"},
+#             {"payload": "/deny", "title": "No"},
+#         ]
+
+
 
 class ActionDefaultFallback(Action):
     """Execute the fallback action and goes back to the previous state of the dialogue"""
