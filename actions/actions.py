@@ -34,7 +34,10 @@ appel_fallback = 0
 #             {"payload": "/deny", "title": "No"},
 #         ]
 
-
+# here = pathlib.Path(__file__).parent.absolute()
+# handoff_config = (
+#     ruamel.yaml.safe_load(open(f"{here}/handoff_config.yml", "r")) or {}
+# ).get("handoff_hosts", {})
 
 class ActionDefaultFallback(Action):
     """Execute the fallback action and goes back to the previous state of the dialogue"""
@@ -68,40 +71,38 @@ class ActionStoreProbleme(Action):
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict
     ) -> List[EventType]:
 
+        intent = tracker.get_intent_of_latest_message()
         current_state = tracker.current_state()
         probleme = current_state["latest_message"]["text"]
-        return [SlotSet('probleme', probleme)]
-                
     
-#     @staticmethod
-#     def validate_number_code(self,
-#                              value: Any,
-#                              dispatcher: CollectingDispatcher,
-#                              tracker: Tracker,
-#                              domain: DomainDict)-> Dict[Text, Any]:
+        if intent == "prix_produits" or intent == "demande_box" or intent == "demande_telephone" or  intent == "demande_modem":
+            return [SlotSet('probleme', probleme), SlotSet('categorie', "Prix de produits")]
         
-#         if re.match(r"^6{2}", value) != None and len(value)==9 and value.isdigit()==True:
-#             return {"number_code": value}
-#         else:
-#             dispatcher.utter_message(template="utter_erreur_numero")
-#             return {"number_code":None} 
-    
-    
-# class UserForm(Action):
-    
-#     def name(self)->Text:
-#         return "action_default_fallback"
-    
-
-   
-
+        if intent == "forfait_internet":
+            return [SlotSet('probleme', probleme), SlotSet('categorie', "Forfait Internet")]
         
-#         number_code = tracker.get_slot("number_code")
-
-# class MyIO(InputChannel):
-#     def name() -> Text:
-#         """Name of your custom channel."""
-#         return "King_francais"
+        if intent == "connexion_impossible":
+            return [SlotSet('probleme', probleme), SlotSet('categorie', "Connexion Impossible")]
+        
+        if intent == "activer_puce":
+            return [SlotSet('probleme', probleme), SlotSet('categorie', "Activation SIM")]
+        
+        if intent == "identifier_puce":
+            return [SlotSet('probleme', probleme), SlotSet('categorie', "Identification SIM")]
+        
+        if intent == "connaitre_numero":
+            return [SlotSet('probleme', probleme), SlotSet('categorie', "Connaitre Numéro SIM")]
+        
+        if intent == "appel_sans_credit":
+            return [SlotSet('probleme', probleme), SlotSet('categorie', "Appel sans crédit de communication")]
+        
+        if intent == "configuration_android" or intent == "configuration_iphone" or  intent == "configuration_modem" :
+            return [SlotSet('probleme', probleme), SlotSet('categorie', "Configuration Internet")]
+        
+        if intent == "utiliser_phone_etranger":
+            return [SlotSet('probleme', probleme), SlotSet('categorie', "Utiliser son mobile à l'étranger")]
+        
+                                
 
 class SendMail(Action):
     def name(self) -> Text:
@@ -244,8 +245,9 @@ class SauvegardeCSV(Action):
         #data = ["Problème",tracker.get_slot("resolu")]
         resolu = tracker.get_slot("resolu")
         slot = tracker.get_slot("probleme")
+        categorie = tracker.get_sot("categorie")
         print("slot : {}".format(slot))
-        header = ['Problèmes', 'Résolus']
+        header = ['Catégorie','Problèmes', 'Résolus']
         if exist == False:
             try:
                 file = open(file_txt, 'w', newline ='')
@@ -256,7 +258,8 @@ class SauvegardeCSV(Action):
 
                     #writing data row-wise into the csv file
                     writer.writeheader()
-                    writer.writerow({'Problèmes' : slot, 
+                    writer.writerow({'Catégorie' : categorie,
+                                     'Problèmes' : slot, 
                      'Résolus': resolu})
             except:
                 print("Erreur lors de l'ouverture du fichier")
@@ -267,43 +270,47 @@ class SauvegardeCSV(Action):
                 file = open(file_txt, 'a+', newline ='')
                 with file:
                     writer = csv.DictWriter(file, fieldnames = header)
-                    writer.writerow({'Problèmes' : slot, 
+                    writer.writerow({'Catégorie' : categorie,
+                        'Problèmes' : slot, 
                      'Résolus': resolu})
             except:
                 print("Erreur")
-# class ActionHandoff(Action):
-#     def name(self) -> Text:
-#         return "action_handoff"
 
-#     async def run(
-#         self,
-#         dispatcher: CollectingDispatcher,
-#         tracker: Tracker,
-#         domain: Dict[Text, Any],
-#     ) -> List[EventType]:
+                
+class ActionHandoff(Action):
+    def name(self) -> Text:
+        return "action_handoff"
 
-#         dispatcher.utter_message(template="utter_handoff")
-#         handoff_to = tracker.get_slot("handoff_to")
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[EventType]:
 
-#         handoff_bot = handoff_config.get(handoff_to, {})
-#         url = handoff_bot.get("url")
+        dispatcher.utter_message(template="utter_handoff")
+        handoff_to = tracker.get_slot("handoff_to")
 
-#         if url:
-#             if tracker.get_latest_input_channel() == "rest":
-#                 dispatcher.utter_message(
-#                     json_message={
-#                         "handoff_host": url,
-#                         "title": handoff_bot.get("title"),
-#                     }
-#                 )
-#             else:
-#                 dispatcher.utter_message(
-#                     template="utter_wouldve_handed_off", handoffhost=url
-#                 )
-#         else:
-#             dispatcher.utter_message(template="utter_no_handoff")
+        handoff_bot = handoff_config.get(handoff_to, {})
+        url = handoff_bot.get("url")
 
-#         return []
+        if url:
+            if tracker.get_latest_input_channel() == "rest":
+                dispatcher.utter_message(
+                    json_message={
+                        "handoff_host": url,
+                        "title": handoff_bot.get("title"),
+                    }
+                )
+            else:
+                dispatcher.utter_message(
+                    template="utter_wouldve_handed_off", handoffhost=url
+                )
+        else:
+            dispatcher.utter_message(template="utter_no_handoff")
+
+        return []
+
     
     
 #     @staticmethod

@@ -4,6 +4,7 @@ session_config:
   carry_over_slots_to_new_session: true
 
 intents:
+- handoff
 - salutation
 - depart
 - affirmation
@@ -72,6 +73,8 @@ slots:
     type: text
   resolu:
     type: text
+  categorie:
+    type: text
     
 actions:
  - action_submit
@@ -81,6 +84,7 @@ actions:
  - action_sauvegarde_csv
  - action_print_slot
  - action_store_probleme
+ - action_handoff
 # - validate_user_details_form
 
 forms:

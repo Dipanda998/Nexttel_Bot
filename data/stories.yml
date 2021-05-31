@@ -34,8 +34,6 @@ stories:
 
 - story: problème internet complet
   steps: 
-  - intent: salutation
-  - action: utter_salutation
   - intent: connexion_impossible
   - action: action_store_probleme
   - action: utter_connexion_impossible_step_1
@@ -48,8 +46,6 @@ stories:
   
 - story: problème internet step 1
   steps:
-  - intent: salutation
-  - action: utter_salutation
   - intent: connexion_impossible
   - action: action_store_probleme
   - action: utter_connexion_impossible_step_1
@@ -60,8 +56,6 @@ stories:
   
 - story: problème internet step 2
   steps:
-  - intent: salutation
-  - action: utter_salutation
   - intent: connexion_impossible
   - action: action_store_probleme
   - action: utter_connexion_impossible_step_1
@@ -74,8 +68,6 @@ stories:
   
 - story: problème internet step 3
   steps: 
-  - intent: salutation
-  - action: utter_salutation
   - intent: connexion_impossible
   - action: action_store_probleme
   - action: utter_connexion_impossible_step_1
@@ -99,7 +91,3 @@ stories:
   - action: resolu_form
   - active_loop: resolu_form
   
-- story: Transfert vers un humain
-  steps:
-  - intent: nlu_fallback
-  - action: action_default_fallback
