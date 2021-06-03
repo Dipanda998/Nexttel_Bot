@@ -124,6 +124,7 @@ actions:
  - action_list_forfait
  - action_forfait_internet_souscrit
  - action_activation_internet_impossible
+ - action_debut_formulaire
 # - validate_user_details_form
 
 forms:

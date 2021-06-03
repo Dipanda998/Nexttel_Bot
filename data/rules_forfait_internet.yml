@@ -12,47 +12,35 @@ rules:
   steps:
   - action: utter_forfait_internet_categorie
   - intent: internet_heure
-  - slot_was_set:
-    - categorie_forfait: internet_heure
   - action: action_list_forfait
   
 - rule: forfait un jour
   steps:
   - action: utter_forfait_internet_categorie
   - intent: internet_jour
-  - slot_was_set:
-    - categorie_forfait: internet_jour
   - action: action_list_forfait
   
 - rule: forfait une semaine
   steps:
   - action: utter_forfait_internet_categorie
   - intent: internet_semaine
-  - slot_was_set:
-    - categorie_forfait: internet_semaine
   - action: action_list_forfait
 
 - rule: forfait une mois
   steps:
   - action: utter_forfait_internet_categorie
   - intent: internet_mois
-  - slot_was_set:
-    - categorie_forfait: internet_mois
   - action: action_list_forfait
 
 - rule: forfait une nuit
   steps:
   - action: utter_forfait_internet_categorie
   - intent: internet_nuit
-  - slot_was_set:
-    - categorie_forfait: internet_nuit
   - action: action_list_forfait
   
 - rule: forfait une weekend
   steps:
   - action: utter_forfait_internet_categorie
   - intent: internet_weekend
-  - slot_was_set:
-    - categorie_forfait: internet_weekend
   - action: action_list_forfait
 

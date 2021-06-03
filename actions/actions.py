@@ -82,7 +82,7 @@ class ActionBackPrincipal(Action):
         return None
     
         
-class ActionListForfait(Action):
+class ActionSendProbleme(Action):
     def name(self) -> Text:
         return "action_send_probleme"
 
@@ -96,6 +96,7 @@ class ActionListForfait(Action):
         pi = ["activation_internet_impossible"]
         pr = ["pas_reseau"]
         li = ["connexion_lente","impossible_surfer"]
+        print(numero)
         for prob in pi:
             if probleme == prob:
                 probleme = "pi"
@@ -105,13 +106,15 @@ class ActionListForfait(Action):
         for prob in li:
             if probleme == prob:
                 probleme = "li"
+                
+        print(probleme)
         ### Connexion au serveur
         
-        SERVER = "192.168.1.9"
+        SERVER = "192.168.1.5"
         PORT = 12101
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         message_emis = ""
-        message_emis = message_emis + numero + ","+ probleme + "," + appli
+        message_emis =numero + ","+ probleme + "," + appli
         try:
             client.connect((SERVER, PORT))
             # client.sendall(bytes("This is from Client",'UTF-8'))
@@ -120,22 +123,26 @@ class ActionListForfait(Action):
         except:
             print("Une erreur s'est produite lors de la connexion au serveur")
             client.close()
+            
         try:
             message_recu =  client.recv(1024).decode("utf8")
+            dispatcher.utter_message(text=message_recu)
         except:
             print("Une erreur s'est produite lors de la lecture des données venant du serveur")
             client.close()
+#         except asyncio.exceptions.TimeoutError():
+#             print("Erreur!! Délais d'attente dépassé")
+#             client.close()        
             
-        dispatcher.utter_message(text=message_recu)
         client.close()
         
 
         
-class ActionActvtionInternetImpossible(Action):
+class ActionActivationInternetImpossible(Action):
     def name(self) -> Text:
         return "action_activation_internet_impossible"
 
-    async def run (
+    def run (
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict
     ) -> List[EventType]:
         dispatcher.utter_message(response="utter_activation_internet_impossible")
@@ -152,7 +159,7 @@ class ActionListForfait(Action):
     ) -> List[EventType]:
         client = MongoClient('localhost', 27017)
         db = client.rasa
-        collection = tracker.get_slot("categorie_forfait")
+        collection = tracker.get_intent_of_latest_message()
         if collection == "internet_heure":
             bd = db.internet_heure
         if collection == "internet_jour":
@@ -433,7 +440,7 @@ class ActionForfaitInternetSouscrit(Action):
     def name(self) -> Text:
         return "action_forfait_internet_souscrit"
 
-    async def run(
+    def run(
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
@@ -442,6 +449,20 @@ class ActionForfaitInternetSouscrit(Action):
          
         dispatcher.utter_message(response="utter_forfait_internet")
         return [SlotSet('statut_internet', tracker.get_intent_of_latest_message())]
+    
+class ActionDebutForm(Action):
+    def name(self) -> Text:
+        return "action_debut_formulaire"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[EventType]:
+         
+        dispatcher.utter_message(response="utter_debut_formulaire")
+        return [SlotSet('forfait_souscrit', tracker.get_intent_of_latest_message())]
 
                 
                 # class ActionHandoff(Action):

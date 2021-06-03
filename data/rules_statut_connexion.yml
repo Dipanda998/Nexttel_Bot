@@ -32,80 +32,60 @@ rules:
   steps:
   - action: action_forfait_internet_souscrit
   - intent: fly_month1
-  - slot_was_set:
-    - forfait_souscrit: fly_month1
   - action: utter_debut_formulaire
   
 - rule: Forfait souscrit month 2
   steps:
   - action: action_forfait_internet_souscrit
   - intent: fly_month2
-  - slot_was_set:
-    - forfait_souscrit: fly_month2
   - action: utter_debut_formulaire
   
 - rule: Forfait souscrit month 3
   steps:
   - action: action_forfait_internet_souscrit
   - intent: fly_month3
-  - slot_was_set:
-    - forfait_souscrit: fly_month3
   - action: utter_debut_formulaire
   
 - rule: Forfait souscrit month 4
   steps:
   - action: action_forfait_internet_souscrit
   - intent: fly_month4
-  - slot_was_set:
-    - forfait_souscrit: fly_month4
   - action: utter_debut_formulaire
   
 - rule: Forfait souscrit premium 1
   steps:
   - action: action_forfait_internet_souscrit
   - intent: fly_premium1
-  - slot_was_set:
-    - forfait_souscrit: fly_premium1
   - action: utter_debut_formulaire  
   
 - rule: Forfait souscrit premium 2
   steps:
   - action: action_forfait_internet_souscrit
   - intent: fly_premium2
-  - slot_was_set:
-    - forfait_souscrit: fly_premium2
   - action: utter_debut_formulaire 
   
 - rule: Forfait souscrit Fly weekly
   steps:
   - action: action_forfait_internet_souscrit
   - intent: fly_weekly
-  - slot_was_set:
-    - forfait_souscrit: fly_weekly
   - action: utter_debut_formulaire 
   
 - rule: Forfait souscrit Nite 1
   steps:
   - action: action_forfait_internet_souscrit
   - intent: fly_nite1
-  - slot_was_set:
-    - forfait_souscrit: fly_nite1
   - action: utter_debut_formulaire 
   
 - rule: Forfait souscrit Nite 2
   steps:
   - action: action_forfait_internet_souscrit
   - intent: fly_nite2
-  - slot_was_set:
-    - forfait_souscrit: fly_nite2
   - action: utter_debut_formulaire 
   
 - rule: Forfait souscrit Aucun
   steps:
   - action: action_forfait_internet_souscrit
   - intent: aucun_forfait
-  - slot_was_set:
-    - forfait_souscrit: 
   - action: utter_debut_formulaire
   
 - rule: Envoie Probleme
