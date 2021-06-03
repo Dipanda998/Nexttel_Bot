@@ -1,0 +1,144 @@
+version: "2.0"
+
+rules:
+ 
+- rule: statut_connexion H+
+  steps:
+  - action: utter_statut_connexion
+  - intent: h_plus
+  - action: action_forfait_internet_souscrit
+  
+- rule: statut_connexion 3G
+  steps:
+  - action: utter_statut_connexion
+  - intent: 3_g
+  - action: action_forfait_internet_souscrit
+ 
+- rule: statut_connexion EDGE
+  steps:
+  - action: utter_statut_connexion
+  - intent: egde
+  - action: action_forfait_internet_souscrit
+  
+- rule: statut_connexion GPRS
+  steps:
+  - action: utter_statut_connexion
+  - intent: gprs
+  - action: action_forfait_internet_souscrit
+  
+### Forfait internet pour connexion internet lente
+ 
+- rule: Forfait souscrit month 1
+  steps:
+  - action: action_forfait_internet_souscrit
+  - intent: fly_month1
+  - slot_was_set:
+    - forfait_souscrit: fly_month1
+  - action: utter_debut_formulaire
+  
+- rule: Forfait souscrit month 2
+  steps:
+  - action: action_forfait_internet_souscrit
+  - intent: fly_month2
+  - slot_was_set:
+    - forfait_souscrit: fly_month2
+  - action: utter_debut_formulaire
+  
+- rule: Forfait souscrit month 3
+  steps:
+  - action: action_forfait_internet_souscrit
+  - intent: fly_month3
+  - slot_was_set:
+    - forfait_souscrit: fly_month3
+  - action: utter_debut_formulaire
+  
+- rule: Forfait souscrit month 4
+  steps:
+  - action: action_forfait_internet_souscrit
+  - intent: fly_month4
+  - slot_was_set:
+    - forfait_souscrit: fly_month4
+  - action: utter_debut_formulaire
+  
+- rule: Forfait souscrit premium 1
+  steps:
+  - action: action_forfait_internet_souscrit
+  - intent: fly_premium1
+  - slot_was_set:
+    - forfait_souscrit: fly_premium1
+  - action: utter_debut_formulaire  
+  
+- rule: Forfait souscrit premium 2
+  steps:
+  - action: action_forfait_internet_souscrit
+  - intent: fly_premium2
+  - slot_was_set:
+    - forfait_souscrit: fly_premium2
+  - action: utter_debut_formulaire 
+  
+- rule: Forfait souscrit Fly weekly
+  steps:
+  - action: action_forfait_internet_souscrit
+  - intent: fly_weekly
+  - slot_was_set:
+    - forfait_souscrit: fly_weekly
+  - action: utter_debut_formulaire 
+  
+- rule: Forfait souscrit Nite 1
+  steps:
+  - action: action_forfait_internet_souscrit
+  - intent: fly_nite1
+  - slot_was_set:
+    - forfait_souscrit: fly_nite1
+  - action: utter_debut_formulaire 
+  
+- rule: Forfait souscrit Nite 2
+  steps:
+  - action: action_forfait_internet_souscrit
+  - intent: fly_nite2
+  - slot_was_set:
+    - forfait_souscrit: fly_nite2
+  - action: utter_debut_formulaire 
+  
+- rule: Forfait souscrit Aucun
+  steps:
+  - action: action_forfait_internet_souscrit
+  - intent: aucun_forfait
+  - slot_was_set:
+    - forfait_souscrit: 
+  - action: utter_debut_formulaire
+  
+- rule: Envoie Probleme
+  steps:
+  - action: utter_debut_formulaire
+  - action: utilisateur_details_form
+  - active_loop: utilisateur_details_form
+  
+- rule: Submit utilisateur_form
+  condition: 
+  - active_loop: utilisateur_details_form
+  steps:
+  - action: utilisateur_details_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: None
+  - action: utter_verification_utilisateur_form
+  
+- rule: Validate information utilisateur True
+  steps:
+  - action: utter_verification_utilisateur_form
+  - intent: affirmation
+  - action: utter_traitement_requete
+  - action: action_send_probleme
+  - action: action_reset_slots
+  
+- rule: Validate information utilisateur False
+  steps:
+  - action: utter_verification_utilisateur_form
+  - intent: negation
+  - action: action_reset_slots_two
+  - action: utilisateur_details_form
+  - active_loop: utilisateur_details_form
+  
+
+  

@@ -225,6 +225,21 @@ nlu:
     - Je [ne](impossible) parviens pas à [surfer](connexion)
     - La [connexion](connexion) [ne](impossible) passe [pas](impossible)
     - [Problème](impossible) de [connexion](connexion)
+    - Je ne parviens pas à ouvrir des pages web
+    - Je ne parviens pas à ouvrir des pages internet
+    - Ma connexion est lente
+    - Je n'arrive pas à accéder à des sites internet
+    - Je ne peut pas charger des pages web
+    - Impossible d'ouvir des sites internet
+    - Ma connexion est merdique
+    - Très mauvaise connexion
+    - Connexion pourrie
+    - j'ai des problème de connexion
+    - j'ai des problème d'internet
+    - Ma connexion ne passe pas
+    - La connexion internet ne passe pas
+    - Connexion très lente
+    - Connexion internet très lente
 
     
 - intent: prix_produits
@@ -528,6 +543,58 @@ nlu:
     - Grand merci
     - Vraiment merci
     - Oui Merci
+    
+- intent: probleme_technique
+  examples: |
+    - Je souhaite avoir une assistance technique
+    - Je voudais une assistance technique
+    - Assistance technique
+    - Une assistance technique s'il vous plait
+    
+- intent: internet_heure
+  examples: |
+    - Forfait internet pour une heure
+    - Internet heure
+    - Forfait heure
+    - Forfait d'une heure
+    - heure
+    
+- intent: internet_jour
+  examples: |
+    - Internet jour
+    - Forfait jour
+    - Forfait d'un jour
+    - jour
+  
+- intent: internet_semaine
+  examples: |
+    - Internet semaine
+    - Forfait semaine
+    - Forfait d'une semaine
+    - semaine
+    
+- intent: internet_mois
+  examples: |
+    - Internet mois
+    - Forfait mois
+    - Forfait d'un mois
+    - mois
+    - Mois
+
+- intent: internet_nuit
+  examples: |
+    - Internet nuit
+    - Forfait nuit
+    - Forfait d'une nuit
+    - nuit
+    - Nuit
+    
+- intent: internet_weekend
+  examples: |
+    - Internet weekend
+    - Forfait weekend
+    - Forfait d'un weekend
+    - weekend
     
 
 

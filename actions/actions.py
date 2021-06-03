@@ -10,7 +10,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
-from typing import Any, Text, Dict, List, Union
+from typing import Any, Text, Dict, List, Union, Optional, Callable, Awaitable, NoReturn
 #
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
@@ -19,12 +19,28 @@ from rasa_sdk.types import DomainDict
 from rasa_sdk.forms import FormAction
 from rasa_sdk.events import SlotSet, EventType, AllSlotsReset
 import requests
+import socket
+
+#Package pour l'envoi des mails
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from rasa.core.channels.channel import InputChannel
 import csv
 import os
+import asyncio
+import inspect
+from sanic import Sanic, Blueprint, response
+from sanic.request import Request
+from sanic.response import HTTPResponse
+
+#Package pour la base données
+from pymongo import MongoClient
+import datetime
+import pprint
+
+
+import rasa.utils.endpoints
+
 
 appel_fallback = 0
 #
@@ -38,16 +54,18 @@ appel_fallback = 0
 # handoff_config = (
 #     ruamel.yaml.safe_load(open(f"{here}/handoff_config.yml", "r")) or {}
 # ).get("handoff_hosts", {})
+    
 
-class ActionDefaultFallback(Action):
+class ActionBackPrincipal(Action):
     """Execute the fallback action and goes back to the previous state of the dialogue"""
     def name(self) -> Text:
-        return "action_default_fallback"
+        return "action_back_principal"
     
     async def run(self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],) -> List[Dict]:
+        
         
         global appel_fallback
         if appel_fallback <=1:
@@ -62,6 +80,107 @@ class ActionDefaultFallback(Action):
             print(appel_fallback)
             return[SlotSet("probleme", probleme)]
         return None
+    
+        
+class ActionListForfait(Action):
+    def name(self) -> Text:
+        return "action_send_probleme"
+
+    async def run (
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict
+    ) -> List[EventType]:
+        appli = "King"
+        numero = str(tracker.get_slot("numero"))
+        numero = "237"+numero
+        probleme = tracker.get_slot("probleme")
+        pi = ["activation_internet_impossible"]
+        pr = ["pas_reseau"]
+        li = ["connexion_lente","impossible_surfer"]
+        for prob in pi:
+            if probleme == prob:
+                probleme = "pi"
+        for prob in pr:
+            if probleme == prob:
+                probleme = "pr"
+        for prob in li:
+            if probleme == prob:
+                probleme = "li"
+        ### Connexion au serveur
+        
+        SERVER = "192.168.1.9"
+        PORT = 12101
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        message_emis = ""
+        message_emis = message_emis + numero + ","+ probleme + "," + appli
+        try:
+            client.connect((SERVER, PORT))
+            # client.sendall(bytes("This is from Client",'UTF-8'))
+    #             out_data = input()
+            client.send(message_emis.encode("utf8"))
+        except:
+            print("Une erreur s'est produite lors de la connexion au serveur")
+            client.close()
+        try:
+            message_recu =  client.recv(1024).decode("utf8")
+        except:
+            print("Une erreur s'est produite lors de la lecture des données venant du serveur")
+            client.close()
+            
+        dispatcher.utter_message(text=message_recu)
+        client.close()
+        
+
+        
+class ActionActvtionInternetImpossible(Action):
+    def name(self) -> Text:
+        return "action_activation_internet_impossible"
+
+    async def run (
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict
+    ) -> List[EventType]:
+        dispatcher.utter_message(response="utter_activation_internet_impossible")
+        probleme = tracker.get_intent_of_latest_message()
+        return[SlotSet("probleme", probleme)]
+    
+    
+class ActionListForfait(Action):
+    def name(self) -> Text:
+        return "action_list_forfait"
+
+    def run (
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict
+    ) -> List[EventType]:
+        client = MongoClient('localhost', 27017)
+        db = client.rasa
+        collection = tracker.get_slot("categorie_forfait")
+        if collection == "internet_heure":
+            bd = db.internet_heure
+        if collection == "internet_jour":
+            bd = db.internet_jour
+        if collection == "internet_semaine":
+            bd = db.internet_semaine
+        if collection == "internet_mois":
+            bd = db.internet_mois
+        if collection == "internet_nuit":
+            bd = db.internet_nuit
+        if collection == "internet_weekend":
+            bd = db.internet_weekend
+            
+        posts = bd.find()
+        detail = posts.distinct("detail")
+        code = posts.distinct("code")
+        i=0
+        message = ""
+        for d in detail:
+            message = message + "{}. Code: {}\n\n".format(detail[i],code[i])
+            i=i+1
+        
+        envoie = "Nexttel propose les forfaits internet suivant: \n{}".format(message)
+        print(message)
+        print(envoie)
+        dispatcher.utter_message(text=envoie)
+        return []
+        
 
 class ActionStoreProbleme(Action):
     def name(self) -> Text:
@@ -160,6 +279,24 @@ class ValidateRestaurantForm(Action):
         # All slots are filled.
         return [SlotSet("requested_slot", None)]
     
+class ValidateUtilisateurtForm(Action):
+    def name(self) -> Text:
+        return "utilisateur_details_form"
+
+    def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+        required_slots = ["nom", "numero"]
+
+        for slot_name in required_slots:
+            if tracker.slots.get(slot_name) is None:
+                # The slot is not filled yet. Request the user to fill this slot next.
+                return [SlotSet("requested_slot", slot_name)]
+
+        # All slots are filled.
+        return [SlotSet("requested_slot", None)]
+
+    
 class ValidateResoluForm(Action):
     def name(self) -> Text:
         return "resolu_form"
@@ -178,6 +315,23 @@ class ValidateResoluForm(Action):
 
         # All slots are filled.
         return [SlotSet("requested_slot", None)]
+    
+class ValidateStatutConnexionForm(Action):
+    def name(self) -> Text:
+        return "statut_connexion_form"
+
+    def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+        required_slots = ["statut_connexion","forfait_internet"]
+
+        for slot_name in required_slots:
+            if tracker.slots.get(slot_name) is None:
+                return [SlotSet("requested_slot", slot_name)]
+
+        # All slots are filled.
+        return [SlotSet("requested_slot", None)]    
+
        
 class ActionSubmit(Action):
     def name(self) -> Text:
@@ -190,32 +344,20 @@ class ActionSubmit(Action):
         domain: "DomainDict",
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(response="utter_details_thanks")
-        
-class PrintSlot(Action):
+
+    
+class StoreProbleme(Action):
     def name(self) -> Text:
-        return "action_print_slot"
+        return "action_store_probleme"
     def run(
         self,
         dispatcher,
         tracker: Tracker,
         domain: "DomainDict",
-    ) -> List[Dict[Text, Any]]:
-        slot = tracker.get_slot("probleme")
-        print("slot : {}".format(slot))
-        return []
-    
-# class StoreProbleme(Action):
-#     def name(self) -> Text:
-#         return "action_store_probleme"
-#     def run(
-#         self,
-#         dispatcher,
-#         tracker: Tracker,
-#         domain: "DomainDict",
-#     ) -> List[Dict[Text, Any]]:       
-#         current_state = tracker.current_state()
-#         probleme = current_state["latest_message"]["text"]
-#         return [SlotSet('probleme', probleme)]
+    ) -> List[Dict[Text, Any]]:       
+        current_state = tracker.current_state()
+        probleme = current_state["latest_message"]["text"]
+        return [SlotSet('probleme', probleme)]
         
 class ResetAllSlots(Action):
     def name(self) -> Text:
@@ -226,7 +368,18 @@ class ResetAllSlots(Action):
         tracker: Tracker,
         domain: "DomainDict",
     ) -> List[Dict[Text, Any]]:
-        return [AllSlotsReset()]
+        return [AllSlotsReset(), SlotSet("requested_slot", None)]
+    
+class ResetAllSlotsTwo(Action):
+    def name(self) -> Text:
+        return "action_reset_slots_two"
+    def run(
+        self,
+        dispatcher,
+        tracker: Tracker,
+        domain: "DomainDict",
+    ) -> List[Dict[Text, Any]]:
+        return [AllSlotsReset(), SlotSet("requested_slot", None)]
         
 class SauvegardeCSV(Action):
     def name(self) -> Text:
@@ -245,7 +398,7 @@ class SauvegardeCSV(Action):
         #data = ["Problème",tracker.get_slot("resolu")]
         resolu = tracker.get_slot("resolu")
         slot = tracker.get_slot("probleme")
-        categorie = tracker.get_sot("categorie")
+        categorie = tracker.get_slot("categorie")
         print("slot : {}".format(slot))
         header = ['Catégorie','Problèmes', 'Résolus']
         if exist == False:
@@ -276,10 +429,9 @@ class SauvegardeCSV(Action):
             except:
                 print("Erreur")
 
-                
-class ActionHandoff(Action):
+class ActionForfaitInternetSouscrit(Action):
     def name(self) -> Text:
-        return "action_handoff"
+        return "action_forfait_internet_souscrit"
 
     async def run(
         self,
@@ -287,29 +439,44 @@ class ActionHandoff(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[EventType]:
+         
+        dispatcher.utter_message(response="utter_forfait_internet")
+        return [SlotSet('statut_internet', tracker.get_intent_of_latest_message())]
 
-        dispatcher.utter_message(template="utter_handoff")
-        handoff_to = tracker.get_slot("handoff_to")
+                
+                # class ActionHandoff(Action):
+#     def name(self) -> Text:
+#         return "action_handoff"
 
-        handoff_bot = handoff_config.get(handoff_to, {})
-        url = handoff_bot.get("url")
+#     async def run(
+#         self,
+#         dispatcher: CollectingDispatcher,
+#         tracker: Tracker,
+#         domain: Dict[Text, Any],
+#     ) -> List[EventType]:
 
-        if url:
-            if tracker.get_latest_input_channel() == "rest":
-                dispatcher.utter_message(
-                    json_message={
-                        "handoff_host": url,
-                        "title": handoff_bot.get("title"),
-                    }
-                )
-            else:
-                dispatcher.utter_message(
-                    template="utter_wouldve_handed_off", handoffhost=url
-                )
-        else:
-            dispatcher.utter_message(template="utter_no_handoff")
+#         dispatcher.utter_message(template="utter_handoff")
+#         handoff_to = tracker.get_slot("handoff_to")
 
-        return []
+#         handoff_bot = handoff_config.get(handoff_to, {})
+#         url = handoff_bot.get("url")
+
+#         if url:
+#             if tracker.get_latest_input_channel() == "rest":
+#                 dispatcher.utter_message(
+#                     json_message={
+#                         "handoff_host": url,
+#                         "title": handoff_bot.get("title"),
+#                     }
+#                 )
+#             else:
+#                 dispatcher.utter_message(
+#                     template="utter_wouldve_handed_off", handoffhost=url
+#                 )
+#         else:
+#             dispatcher.utter_message(template="utter_no_handoff")
+
+#         return []
 
     
     

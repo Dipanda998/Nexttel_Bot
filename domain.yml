@@ -1,7 +1,7 @@
 version: '2.0'
 session_config:
   session_expiration_time: 1
-  carry_over_slots_to_new_session: true
+  carry_over_slots_to_new_session: false
 
 intents:
 - handoff
@@ -27,6 +27,33 @@ intents:
 - demande_telephone
 - demande_modem
 - handoff_human
+- internet_heure
+- internet_jour
+- internet_semaine
+- internet_mois
+- internet_nuit
+- internet_weekend
+- probleme_technique
+- pas_reseau
+- activation_internet_impossible
+- connexion_lente
+- impossible_surfer
+- activation_internet_impossible_avant
+- activation_internet_possible_avant
+- h_plus
+- 3_g
+- egde
+- gprs
+- fly_month1
+- fly_month2
+- fly_month3
+- fly_month4
+- fly_premium1
+- fly_premium2
+- fly_weekly
+- fly_nite1
+- fly_nite2
+- aucun_forfait
 - connaitre_nom:
     use_entities:
       - name
@@ -73,18 +100,30 @@ slots:
     type: text
   resolu:
     type: text
-  categorie:
+  statut_internet:
     type: text
+  forfait_souscrit:
+    type: text
+  numero:
+    type: text
+  nom:
+    type: text
+  categorie_forfait:
+    type: text
+
     
 actions:
  - action_submit
  - action_send_mail
+ - action_send_probleme
  - action_reset_slots
- - action_default_fallback
+ - action_reset_slots_two
+ - action_back_principal
  - action_sauvegarde_csv
- - action_print_slot
  - action_store_probleme
- - action_handoff
+ - action_list_forfait
+ - action_forfait_internet_souscrit
+ - action_activation_internet_impossible
 # - validate_user_details_form
 
 forms:
@@ -103,21 +142,29 @@ forms:
      - type: from_intent
        value: "False"
        intent: negation
+  utilisateur_details_form:
+    nom:
+    - type: from_entity
+      entity: name
+    numero:
+    - type: from_entity
+      entity: number
 
+       
 responses:
   utter_rermerciement:
   - text: "NEXTTEL vous remercie pour votre fidélité!!"
 
   utter_salutation:
-  - text: "Bonjour! Je m'appelle King 🤴🏽!\n\nJe peux vous accompagner dans:\nLa recherce de forfait internet\nLa configuration d'internet sur vos téléphones, modem et autres\nLe renseignement sur les prix des produits nexttel\nL'identification, l'activation et la connaissance des numéros des SIM Nexttel\nJe peux vous montrer comment appeler sans crédit 😉\nJe peux vous renseigner sur la façon d'utiliser son numéro à l'étranger.\n\nComment puis-je vous donc aider 😉?"
+  - text: "Bonjour! Je m'appelle King 🤴🏽!\n\nJe peux vous accompagner dans:\nLa recherce de forfait internet\nLa configuration d'internet sur vos téléphones, modem et autres\nLe renseignement sur les prix des produits nexttel\nL'identification, l'activation et la connaissance des numéros des SIM Nexttel\nJe peux vous montrer comment appeler sans crédit 😉\nJe peux vous renseigner sur la façon d'utiliser son numéro à l'étranger.\n Et je peux vous fournir une assistance technique pour vos problèmes d'Internet, de SMS et d'appels.\n\nComment puis-je vous donc aider 😉?"
   
-  utter_solution_internet_1:
+  utter_solution_forfait:
   - text: "Veuillez souscrire à un forfait en composant l'un des codes suivants: *865#, *860#"
   
-  utter_solution_internet_2:
+  utter_solution_configuration_internet:
   - text: "Veuillez configurer les paramètres internet de votre téléphone selon les paramètres suivants:..."
   
-  utter_solution_internet_3:
+  utter_solution_redemarrage:
   - text: "Essayer de redémarrer votre téléphone et reessayer de vous connecter"
   
   utter_remerciement:
@@ -129,16 +176,77 @@ responses:
   utter_depart:
   - text: "Au revoir !"
   
-  utter_connexion_impossible_step_1:
-  - text: "Avez-vous souscrit à un forfait ?"
+  utter_probleme_internet_step_1:
+  - text: "Pour mieux vous aider, veuillez s'il vous plait nous fournir plus de détails sur votre problème. Dans quel cas vous situez-vous ?"
+    buttons:
+      - title: Pas de barre de réseau
+        payload: /pas_reseau
+      - title: Vous activez vos data mais pas de signe de connexion 
+        payload: /activation_internet_impossible
+      - title: Connexion lente
+        payload: /connexion_lente
+      - title: Impossible de surfer
+        payload: /impossible_surfer
   
-  utter_connexion_impossible_step_2:
+  utter_pas_reseau:
   - text: "Avez-vous correctement configuré les paramètres de connexion Internet ?"
   
-  utter_connexion_impossible_step_3:
-  - text: "Avez-vous essayer de redémarrer votre téléphone ?"
+  utter_activation_internet_impossible:
+  - text: "Avant, parveniez-vous à activer votre connexion avec vos paramètres internet Actuels ?"
+    buttons:
+      - title: Oui
+        payload: /activation_internet_possible_avant
+      - title: Non
+        payload: /activation_internet_impossible_avant
+        
+  utter_soucis_apn:
+  - text: "Vous avez peut-être mal configuré vos paramètres internet. Quel type d'appareil avez-vous ?"
+    buttons:
+      - title: Android
+        payload: /configuration_android
+      - title: Iphone
+        payload: /configuration_iphone
+      - title: Modem
+        payload: /configuration_modem
+        
+  utter_statut_connexion:
+  - text: "Quel signe apparait sur votre barre de réseau lorsque vous activez la connexion internet ?"
+    buttons:
+      - title: H+
+        payload: /h_plus
+      - title: 3G
+        payload: /3_g
+      - title: E
+        payload: /egde
+      - title: G
+        payload: /gprs
+   
+  utter_forfait_internet:
+  - text: "A quel forfait avez-vous souscrit?"
+    buttons:
+      - title: Fly Monthly 1
+        payload: /fly_month1
+      - title: Fly Monthly 2
+        payload: /fly_month2
+      - title: Fly Monthly 3
+        payload: /fly_month3
+      - title: Fly Monthly 4
+        payload: /fly_month4
+      - title: Fly Premuim 1
+        payload: /fly_premium1
+      - title: Fly Premuim 2
+        payload: /fly_premium2
+      - title: Fly Weekly
+        payload: /fly_weekly
+      - title: Fly Nite 1
+        payload: /fly_nite1
+      - title: Fly Nite 2
+        payload: /fly_nite2
+      - title: Aucun de ceux-là
+        payload: /aucun_forfait
+        
   
-  utter_connexion_impossible_step_4:
+  utter_traitement_requete:
   - text: "Nous traitons votre requête. Merci de patienter un moment!"
   
   utter_configuration_iphone:
@@ -176,8 +284,35 @@ responses:
       - title: Modem
         payload: /configuration_modem
   
-  utter_forfait_internet:
-  - text: "Vous pouvez souscrire à un forfait internet en composant un des codes suivants: *860#, *865#"
+  utter_forfait_internet_categorie:
+  - text: "Pour quel durée souhaitez-vous connaitre nos forfait?"
+    buttons:
+      - title: 2h
+        payload: /internet_heure
+      - title: Un jour (24h)
+        payload: /internet_jour
+      - title: Une semaine
+        payload: /internet_semaine
+      - title: Mois (30 Jours)
+        payload: /internet_mois
+      - title: Nuit (00h - 06h)
+        payload: /internet_nuit
+      - title: Weekend
+        payload: /internet_weekend
+#     buttons:
+#       - title: 2h
+#         payload: /internet_heure
+#       - title: Un jour(24h)
+#         payload: /internet_jour
+#       - title: Une semaine (7 jours)
+#         payload: /internet_semaine
+#       - title: Un mois (30 jours)
+#         payload: /internet_mois
+#       - title: Une nuit (00h - 6h)
+#         payload: /internet_nuit
+#       - title: Un weekend
+#         payload: /internet_weekend
+      
   
   utter_activation_puce:
   - text: "C'est facile! Insérez la puce dans le téléphone et appelez le 801. Rassurez-vous au préalable que votre numéro Nexttel a été identifié avec la photocopie d’une de vos pièces d’identité nationale valide."
@@ -213,6 +348,8 @@ responses:
         payload: /appel_sans_credit
       - title: Utiliser votre numero à letranger
         payload: /utiliser_phone_etranger
+      - title: Assistance Technique
+        payload: /probleme_technique
 
   utter_details_thanks:
    - text: "Merci d'avoir fourni ces détails. Nous transférons votre requête"
@@ -233,8 +370,8 @@ responses:
       - title: NON
         payload: /negation
   
-  utter_submit:
-  - text: "hello"
+  utter_debut_formulaire:
+  - text: "Nous aimereions connaitre:"
   
   utter_transfert_effectue:
   - text: "Transfert effectué"
@@ -251,11 +388,25 @@ responses:
   utter_ask_name:
   - text: " Le nom de la personne qui a besoin d'assistance s'il vous plait!"
   
+  utter_ask_numero:
+  - text: " Le numéro de téléphone qui a besoin d'assistance s'il vous plait!"
+  
+  utter_ask_nom:
+  - text: " Le nom de la personne qui a besoin d'assistance s'il vous plait!"
+  
 #   utter_ask_probleme:
 #   - text: "Quel est le problème que vous rencontrez ?"
   
   utter_verification_user_form:
   - text: "Nom: {name}\n Numero: {number}\nProblème rencontré: {probleme}\nCes informations sont-elles correctes?\n"
+    buttons:
+      - title: OUI
+        payload: /affirmation
+      - title: NON
+        payload: /negation
+        
+  utter_verification_utilisateur_form:
+  - text: "Nom: {name}\n Numero: {number}\nCes informations sont-elles correctes?\n"
     buttons:
       - title: OUI
         payload: /affirmation

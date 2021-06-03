@@ -6,6 +6,12 @@ rules:
   steps:
     - intent: handoff
     - action: utter_salutation
+    
+- rule: Problème internet 
+  steps: 
+    - intent: connexion_impossible
+    - action: action_store_probleme
+    - action: utter_probleme_internet_step_1
 
 - rule: salutation
   steps:
@@ -15,7 +21,7 @@ rules:
 - rule: Fall back
   steps:
   - intent: nlu_fallback
-  - action: action_default_fallback
+  - action: action_back_principal
 
 - rule: configuration internet iphone court
   steps:
@@ -121,14 +127,6 @@ rules:
   - action: resolu_form
   - active_loop: resolu_form
  
-- rule: demande de forfait
-  steps:
-  - intent: forfait_internet
-  - action: action_store_probleme
-  - action: utter_forfait_internet
-  - action: resolu_form
-  - active_loop: resolu_form
- 
 - rule: configuration internet android court
   steps:
   - intent: configuration_android
@@ -173,6 +171,19 @@ rules:
     - requested_slot: None
   - action: utter_verification_user_form
   
+- rule: submit choix forfait
+  condition: 
+  - active_loop: choix_forfait_form
+  steps:
+  - action: choix_forfait_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: None
+#   - action: action_categorie_internet
+  - action: action_list_forfait
+  - action: resolu_form
+  - active_loop: resolu_form
+  
 
 - rule: Transfert vers un humain Refusée
   steps:
@@ -188,8 +199,6 @@ rules:
   - action: user_details_form
   - active_loop: user_details_form
 
-
-  
 - rule: Validate information True
   steps:
   - action: utter_verification_user_form

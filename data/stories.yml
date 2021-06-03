@@ -32,53 +32,54 @@ stories:
   - action: resolu_form
   - active_loop: resolu_form
 
-- story: problème internet complet
+- story: Activation internet possible avant
   steps: 
-  - intent: connexion_impossible
-  - action: action_store_probleme
-  - action: utter_connexion_impossible_step_1
-  - intent: affirmation
-  - action: utter_connexion_impossible_step_2
-  - intent: affirmation
-  - action: utter_connexion_impossible_step_3
-  - intent: affirmation
-  - action: utter_connexion_impossible_step_4
+  - action: utter_probleme_internet_step_1 # situation du prolème d'internet
+  - intent: activation_internet_impossible
+  - action: action_activation_internet_impossible
+  - intent: activation_internet_possible_avant
+  - action: utilisateur_details_form
+  - active_loop: utilisateur_details_form
   
-- story: problème internet step 1
-  steps:
-  - intent: connexion_impossible
-  - action: action_store_probleme
-  - action: utter_connexion_impossible_step_1
-  - intent: negation
-  - action: utter_solution_internet_1
-  - action: resolu_form
-  - active_loop: resolu_form
-  
-- story: problème internet step 2
-  steps:
-  - intent: connexion_impossible
-  - action: action_store_probleme
-  - action: utter_connexion_impossible_step_1
-  - intent: affirmation
-  - action: utter_connexion_impossible_step_2
-  - intent: negation
-  - action: utter_solution_internet_2
-  - action: resolu_form
-  - active_loop: resolu_form
-  
-- story: problème internet step 3
+- story: Activation internet impossible avant
   steps: 
-  - intent: connexion_impossible
-  - action: action_store_probleme
-  - action: utter_connexion_impossible_step_1
-  - intent: affirmation
-  - action: utter_connexion_impossible_step_2
-  - intent: affirmation
-  - action: utter_connexion_impossible_step_3
-  - intent: negation
-  - action: utter_solution_internet_3
-  - action: resolu_form
-  - active_loop: resolu_form
+  - action: utter_probleme_internet_step_1 # situation du prolème d'internet
+  - intent: activation_internet_impossible
+  - action: action_activation_internet_impossible
+  - intent: activation_internet_impossible_avant
+  - action: utter_soucis_apn
+  
+- story: Connexion internet lente
+  steps:
+  - action: utter_probleme_internet_step_1
+  - intent: connexion_lente
+  - action: utter_statut_connexion
+  
+# - story: problème internet step 2
+#   steps:
+#   - intent: connexion_impossible
+#   - action: action_store_probleme
+#   - action: utter_connexion_impossible_step_1
+#   - intent: affirmation
+#   - action: utter_connexion_impossible_step_2
+#   - intent: negation
+#   - action: utter_solution_internet_2
+#   - action: resolu_form
+#   - active_loop: resolu_form
+  
+# - story: problème internet step 3
+#   steps: 
+#   - intent: connexion_impossible
+#   - action: action_store_probleme
+#   - action: utter_connexion_impossible_step_1
+#   - intent: affirmation
+#   - action: utter_connexion_impossible_step_2
+#   - intent: affirmation
+#   - action: utter_connexion_impossible_step_3
+#   - intent: negation
+#   - action: utter_solution_internet_3
+#   - action: resolu_form
+#   - active_loop: resolu_form
   
 - story: prix des produits
   steps:
