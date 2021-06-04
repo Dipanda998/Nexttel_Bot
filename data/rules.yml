@@ -2,10 +2,10 @@ version: "2.0"
 
 rules:
 
-- rule: Handoff 
+- rule: demande forfait 
   steps:
-    - intent: handoff
-    - action: utter_salutation
+    - intent: forfait
+    - action: utter_demande_forfait
     
 - rule: Problème internet 
   steps: 
@@ -16,7 +16,7 @@ rules:
 - rule: salutation
   steps:
   - intent: salutation
-  - action: utter_salutation
+  - action: action_salutation
   
 - rule: Fall back
   steps:
@@ -27,35 +27,31 @@ rules:
   steps:
   - intent: configuration_iphone
   - action: action_store_probleme
-  - action: utter_configuration_iphone
+  - action: action_list_config_internet
+  
+- rule: satisfait parametre device
+  steps: 
+  - action: action_list_config_internet
   - action: resolu_form
   - active_loop: resolu_form
   
-- rule: satisfait iphone
-  steps: 
-  - action: utter_configuration_iphone
-  - action: resolu_form
-  - active_loop: resolu_form
+# - rule: satisfait android
+#   steps: 
+#   - action: action_list_config_internet
+#   - action: resolu_form
+#   - active_loop: resolu_form
   
-- rule: satisfait android
-  steps: 
-  - action: utter_configuration_android
-  - action: resolu_form
-  - active_loop: resolu_form
-  
-- rule: satisfait modem
-  steps: 
-  - action: utter_configuration_modem  
-  - action: resolu_form
-  - active_loop: resolu_form
+# - rule: satisfait modem
+#   steps: 
+#   - action: utter_configuration_modem  
+#   - action: resolu_form
+#   - active_loop: resolu_form
   
 - rule: configuration internet modem court
   steps:
   - intent: configuration_modem
   - action: action_store_probleme
-  - action: utter_configuration_modem
-  - action: resolu_form
-  - active_loop: resolu_form
+  - action: action_list_config_internet
   
 - rule: activation puce
   steps:
@@ -107,33 +103,39 @@ rules:
   steps:
   - intent: demande_box
   - action: action_store_probleme
-  - action: utter_prix_wifiBox
+  - action: action_prix_device
+
+- rule: satifaction prix device
+  steps:
+  - action: action_prix_device
   - action: resolu_form
   - active_loop: resolu_form
-  
+
 - rule: demande modem
   steps:
   - intent: demande_modem
   - action: action_store_probleme
-  - action: utter_prix_modem_poche
-  - action: resolu_form
-  - active_loop: resolu_form
+  - action: action_prix_device
   
 - rule: demande telephone
   steps:
   - intent: demande_telephone
   - action: action_store_probleme
-  - action: utter_prix_telephone
-  - action: resolu_form
-  - active_loop: resolu_form
+  - action: action_prix_device
+#   - action: resolu_form
+#   - active_loop: resolu_form
+  
+- rule: demande cle
+  steps:
+  - intent: demande_cle
+  - action: action_store_probleme
+  - action: action_prix_device
  
 - rule: configuration internet android court
   steps:
   - intent: configuration_android
   - action: action_store_probleme
-  - action: utter_configuration_android
-  - action: resolu_form
-  - active_loop: resolu_form
+  - action: action_list_config_internet
    
 # - rule: satisfaction oui
 #   steps:

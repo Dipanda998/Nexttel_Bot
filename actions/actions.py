@@ -43,6 +43,8 @@ import rasa.utils.endpoints
 
 
 appel_fallback = 0
+client = MongoClient('localhost', 27017)
+db = client.rasa
 #
 #
 #  buttons = [
@@ -148,8 +150,89 @@ class ActionActivationInternetImpossible(Action):
         dispatcher.utter_message(response="utter_activation_internet_impossible")
         probleme = tracker.get_intent_of_latest_message()
         return[SlotSet("probleme", probleme)]
+
+class ActionPrixDevice(Action):
+    def name(self) -> Text:
+        return "action_prix_device"
+
+    def run (
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict
+    ) -> List[EventType]:
+        global client
+        global db
+        bd = db.prix_device
+        data = bd.find() 
+        intent = tracker.get_intent_of_latest_message()
+        if intent == "demande_box":
+            liste = ["wifiBox"]
+            image = ["image_box"]
+        if intent == "demande_modem":
+            liste = ["modemPoche"]
+            image = ["image_modem"]
+        if intent == "demande_telephone":
+            liste = ["telephone"]
+            image = ["image_phone"]
+        if intent == "demande_cle":
+            liste = ["cle"]   
+            image = ["image_cle"]
+        if intent == "prix_produits":
+            liste = ["cle","telephone","wifiBox","modemPoche"]
+            image = ["image_cle","image_phone","image_box","image_modem"]
+        
+        i=0
+        while i < len(liste):
+            prix = data.distinct(liste[i])
+#             image = data.distinct(image[i])
+            prix = prix[0]
+#             image = image[0]
+            dispatcher.utter_message(text=prix)
+#             dispatcher.utter_message(image=image)
+            i=i+1
+        
+class ActionSalutation(Action):
+    def name(self) -> Text:
+        return "action_salutation"
+
+    def run (
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict
+    ) -> List[EventType]:
+        global client
+        global db
+        bd = db.salutation
+        data = bd.find()
+        saluer = data.distinct("saluerKing")
+        saluer = saluer[0]
+        dispatcher.utter_message(text=saluer)
+        
     
-    
+class ActionListConfigInternet(Action):
+    def name(self) -> Text:
+        return "action_list_config_internet"
+
+    def run (
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict
+    ) -> List[EventType]:
+        global client
+        global db
+        bd = db.config_internet
+        data = bd.find()
+       
+        intent = tracker.get_intent_of_latest_message()
+        if intent == "configuration_android":
+            device = data.distinct("android")
+            message_device = "Configuration Android: "
+        if intent == "configuration_iphone":
+            device = data.distinct("iphone")
+            message_device = "Configuration Iphone: "
+        if intent == "configuration_modem":
+            device = data.distinct("modem")
+            message_device = "Configuration Modem: "
+        message = ""
+        message = message + message_device+"{}\n\n".format(device[0])
+        dispatcher.utter_message(text=message)
+            
+
+
 class ActionListForfait(Action):
     def name(self) -> Text:
         return "action_list_forfait"
@@ -157,8 +240,8 @@ class ActionListForfait(Action):
     def run (
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict
     ) -> List[EventType]:
-        client = MongoClient('localhost', 27017)
-        db = client.rasa
+        global client
+        global db
         collection = tracker.get_intent_of_latest_message()
         if collection == "internet_heure":
             bd = db.internet_heure
@@ -183,8 +266,6 @@ class ActionListForfait(Action):
             i=i+1
         
         envoie = "Nexttel propose les forfaits internet suivant: \n{}".format(message)
-        print(message)
-        print(envoie)
         dispatcher.utter_message(text=envoie)
         return []
         

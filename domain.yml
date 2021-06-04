@@ -4,6 +4,8 @@ session_config:
   carry_over_slots_to_new_session: false
 
 intents:
+- appel_impossible
+- sms_impossible
 - handoff
 - salutation
 - depart
@@ -17,6 +19,8 @@ intents:
 - configuration_modem
 - prix_produits
 - forfait_internet
+- forfait_appel
+- forfait
 - activer_puce
 - identifier_puce
 - connaitre_numero
@@ -62,6 +66,7 @@ intents:
       - number
 
 entities:
+- cle
 - android
 - configuration
 - connexion
@@ -90,6 +95,7 @@ entities:
 - physique
 - number
 - name
+- appel
   
 slots:
   number:
@@ -113,6 +119,9 @@ slots:
 
     
 actions:
+ - action_prix_device
+ - action_list_config_internet
+ - action_salutation
  - action_submit
  - action_send_mail
  - action_send_probleme
@@ -155,6 +164,14 @@ forms:
 responses:
   utter_rermerciement:
   - text: "NEXTTEL vous remercie pour votre fidélité!!"
+  
+  utter_demande_forfait:
+  - text: "Pour quelle catégorie voulez-vous un forfait ?"
+    buttons:
+      - title: Internet
+        payload: /forfait_internet
+      - title: Appel
+        payload: /forfait_appel
 
   utter_salutation:
   - text: "Bonjour! Je m'appelle King 🤴🏽!\n\nJe peux vous accompagner dans:\nLa recherce de forfait internet\nLa configuration d'internet sur vos téléphones, modem et autres\nLe renseignement sur les prix des produits nexttel\nL'identification, l'activation et la connaissance des numéros des SIM Nexttel\nJe peux vous montrer comment appeler sans crédit 😉\nJe peux vous renseigner sur la façon d'utiliser son numéro à l'étranger.\n Et je peux vous fournir une assistance technique pour vos problèmes d'Internet, de SMS et d'appels.\n\nComment puis-je vous donc aider 😉?"
@@ -290,13 +307,13 @@ responses:
     buttons:
       - title: 2h
         payload: /internet_heure
-      - title: Un jour (24h)
+      - title: Un jour
         payload: /internet_jour
       - title: Une semaine
         payload: /internet_semaine
-      - title: Mois (30 Jours)
+      - title: Mois
         payload: /internet_mois
-      - title: Nuit (00h - 06h)
+      - title: Nuit
         payload: /internet_nuit
       - title: Weekend
         payload: /internet_weekend
@@ -354,6 +371,18 @@ responses:
 
   utter_details_thanks:
    - text: "Merci d'avoir fourni ces détails. Nous transférons votre requête"
+   
+  utter_probleme_technique:
+  - text: "Dans quel catégorie se situe votre problème ?"
+    buttons:
+      - title: Internet
+        payload: /connexion_impossible
+      - title: Appel
+        payload: /appel_impossible
+      - title: Prix des produits Nexttel
+        payload: SMS
+      - title: Identification SIM
+        payload: /sms_impossible
    
   utter_transfert: 
   - text: "Votre requete va être notifié à un agent physique pour une prise en charge.\n Etes-vous d'accord Oui ou Non?\n"

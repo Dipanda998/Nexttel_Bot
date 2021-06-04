@@ -8,9 +8,7 @@ stories:
   - action: utter_configuration_internet
   - intent: configuration_android
   - action: action_store_probleme
-  - action: utter_configuration_android
-  - action: resolu_form
-  - active_loop: resolu_form
+  - action: action_list_config_internet
   
 - story: configuration internet iphone long
   steps:
@@ -18,9 +16,7 @@ stories:
   - action: utter_configuration_internet
   - intent: configuration_iphone
   - action: action_store_probleme
-  - action: utter_configuration_iphone
-  - action: resolu_form
-  - active_loop: resolu_form
+  - action: action_list_config_internet
   
 - story: configuration internet modem long
   steps:
@@ -28,9 +24,9 @@ stories:
   - action: utter_configuration_internet
   - intent: configuration_modem
   - action: action_store_probleme
-  - action: utter_configuration_modem
-  - action: resolu_form
-  - active_loop: resolu_form
+  - action: action_list_config_internet
+#   - action: resolu_form
+#   - active_loop: resolu_form
 
 - story: Activation internet possible avant
   steps: 
@@ -85,10 +81,6 @@ stories:
   steps:
   - intent: prix_produits
   - action: action_store_probleme
-  - action: utter_prix_cle
-  - action: utter_prix_telephone
-  - action: utter_prix_modem_poche
-  - action: utter_prix_wifiBox
-  - action: resolu_form
-  - active_loop: resolu_form
+  - action: action_prix_device
+
   

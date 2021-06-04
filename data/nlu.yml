@@ -128,12 +128,41 @@ nlu:
     - Je veux les [codes](forfait) [internet](internet)
     - [Forfait](forfait) [internet](internet)
     - [code](forfait) [internet](internet)
-    - Quel forfait pour internet
-    - Quels sont les forfaits internet
-    - Vous proposez quels forfaits Internet
-    - Comment je peux avoir la connexion internet
-    - Donne moi les codes pour sufer
-    - je veux les codes pour surfer
+    - Quel [forfait](forfait) pour [internet](internet)
+    - Quels sont les [forfaits](forfait) [internet](internet)
+    - Vous proposez quels [forfaits](forfait) [Internet](internet)
+    - Comment je peux avoir la connexion [internet](internet)
+    - Donne moi les codes pour [sufer](internet)
+    - je veux les codes pour [surfer](internet)
+    
+- intent: forfait_appel
+  examples: |
+    - je souhaite connaitre les [forfaits](forfait) [appel](appel)
+    - Je veux les [forfaits](forfait) pour les appels [appel](appel)
+    - Je voudrais souscrire à un [forfait](forfait) [appel](appel)
+    - Je veux connaitre les [forfaits](forfait) [appel](appel)
+    - Je veux les [codes](forfait) [appel](appel)
+    - [Forfait](forfait) [appel](appel)
+    - [code](forfait) [appel](appel)
+    - Quel [forfait](forfait) pour [appeller](appel)
+    - Quels sont les [forfaits](forfait) [appel](appel)
+    - Vous proposez quels [forfaits](forfait) [appel](appel)
+    - Donne moi les codes pour [appeller](appel)
+    - je veux les codes pour [appeller](appel)
+    
+- intent: forfait
+  examples: |
+    - je souhaite connaitre les [forfaits](forfait)
+    - Je veux les [forfaits](forfait)
+    - Je voudrais souscrire à un [forfait](forfait)
+    - Je veux connaitre les [forfaits](forfait)
+    - Je veux les [codes](forfait)
+    - [Forfait](forfait) Nexttel
+    - [code](forfait)
+    - Quel [forfait](forfait)
+    - Quels sont les [forfaits](forfait) que je peux avoir
+    - Vous proposez quels [forfaits](forfait)
+
     
 - intent: configuration_android
   examples: |
@@ -272,6 +301,28 @@ nlu:
     - Je veux acheter une box wifi
     - Tu vends tes box wifi a combien
     - Donne moi une box wifi
+    
+- intent: demande_cle
+  examples: |
+    - Je [veux](vouloir) une [cle](cle) wifi
+    - Je veux [acheter](vouloir) une [cle](cle) wifi
+    - Quel [cle](cle) wifi avez-vous
+    - [cle](cle) wifi
+    - Je veux une [cle](cle) wifi
+    - Quel [cle](cle) wifi avez-vous
+    - Combien coute une [cle](cle) wifi
+    - Combien vaut une [cle](cle) wifi
+    - A combien je peux avoir une [cle](cle)
+    - Combien coute une [cle](cle)
+    - Combien coûte une [cle](cle)
+    - A combien vendez-vous une [cle](cle) wifi
+    - Prix d'une [cle](cle) wifi
+    - Je peux avoir une [cle](cle) a combien
+    - A combien vous me laissez une [cle](cle) wifi
+    - Prix d'une [cle](cle) wifi
+    - Je veux acheter une [cle](cle) wifi
+    - Tu vends tes [cle](cle) wifi a combien
+    - Donne moi une [cle](cle) wifi
     
     
 - intent: demande_modem
